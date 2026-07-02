@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB Contabilidade Estratégica — Sistema de Informativos</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+:root{
+  --navy:#1B2A4A;--navy-light:#263d6b;--gold:#C9A84C;--gold-light:#e0c077;
+  --cream:#EAE6DC;--white:#ffffff;
+  --g50:#f8f9fa;--g100:#f1f3f5;--g200:#e9ecef;--g300:#dee2e6;
+  --g400:#ced4da;--g500:#adb5bd;--g600:#6c757d;--g700:#495057;--g800:#343a40;--g900:#212529;
+  --ok:#2d7d46;--ok-bg:#d4edda;--warn:#856404;--warn-bg:#fff3cd;
+  --danger:#721c24;--danger-bg:#f8d7da;--info:#1a56db;--info-bg:#e8f0fe;
+  --purple:#5b21b6;--purple-bg:#ede9fe;
+  --r:8px;--rlg:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;color:var(--g800);background:var(--g50);min-height:100vh}
+
+/* SETUP */
+#setup-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--navy);padding:2rem}
+.setup-card{background:white;border-radius:var(--rlg);padding:2.5rem;width:100%;max-width:520px}
+.setup-logo{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
+.setup-logo-icon{width:48px;height:48px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.setup-logo-text .t1{font-size:17px;font-weight:600;color:var(--navy)}
+.setup-logo-text .t2{font-size:12px;color:var(--g500)}
+.setup-step{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--g100)}
+.setup-step:last-child{border-bottom:none}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--navy);color:white;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-title{font-weight:500;font-size:13px;color:var(--g800)}
+.step-desc{font-size:12px;color:var(--g500);margin-top:2px;line-height:1.5}
+.sf label{display:block;font-size:12px;font-weight:500;color:var(--g600);margin-bottom:4px;margin-top:14px}
+.sf input{width:100%;padding:9px 12px;border:1px solid var(--g300);border-radius:var(--r);font-size:13px;color:var(--g800);transition:border-color .15s}
+.sf input:focus{outline:none;border-color:var(--navy)}
+.btn-setup{width:100%;padding:11px;background:var(--navy);color:white;border:none;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;margin-top:1.5rem}
+.btn-setup:hover{background:var(--navy-light)}
+.info-panel{background:var(--info-bg);border:1px solid #bfdbfe;border-radius:var(--r);padding:.875rem 1rem;font-size:12px;color:var(--info);line-height:1.6;margin-bottom:1rem}
+
+/* LAYOUT */
+#app{display:none}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:220px;flex-shrink:0;background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
+.sidebar-logo{padding:1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}
+.logo-icon{width:32px;height:32px;border-radius:7px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--navy);font-weight:700}
+.logo-text .l1{font-size:12px;font-weight:600;color:white;line-height:1.2}
+.logo-text .l2{font-size:10px;color:rgba(255,255,255,.4)}
+.sidebar-nav{padding:.75rem .5rem;flex:1}
+.nav-label{font-size:10px;font-weight:600;letter-spacing:.6px;color:rgba(255,255,255,.3);text-transform:uppercase;padding:.5rem .5rem .25rem}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--r);color:rgba(255,255,255,.65);font-size:13px;cursor:pointer;margin-bottom:2px;transition:all .15s;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:rgba(255,255,255,.08);color:white}
+.nav-item.active{background:rgba(201,168,76,.2);color:var(--gold)}
+.nav-item .icon{font-size:15px;width:18px;text-align:center}
+.sidebar-user{padding:.75rem 1rem;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:8px}
+.user-av{width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--navy);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.u-name{font-size:12px;color:white;font-weight:500}
+.u-role{font-size:10px;color:rgba(255,255,255,.4)}
+.btn-logout{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:16px;padding:2px}
+.btn-logout:hover{color:rgba(255,255,255,.8)}
+
+/* MAIN */
+.main{margin-left:220px;flex:1}
+.topbar{background:white;border-bottom:1px solid var(--g200);padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-title{font-size:15px;font-weight:600;color:var(--navy)}
+.topbar-sub{font-size:12px;color:var(--g500);margin-top:1px}
+.sync-badge{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ok);background:var(--ok-bg);padding:4px 10px;border-radius:20px}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.content{padding:1.5rem}
+
+/* SCREENS */
+.screen{display:none}.screen.active{display:block}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.stat-card{background:white;border:1px solid var(--g200);border-radius:var(--rlg);padding:1rem 1.25rem}
+.stat-label{font-size:11px;color:var(--g500);font-weight:500;text-transform:uppercase;letter-spacing:.4px}
+.stat-val{font-size:28px;font-weight:600;margin-top:4px;color:var(--navy)}
+.stat-val.warn{color:var(--warn)}.stat-val.ok{color:var(--ok)}.stat-val.purple{color:var(--purple)}
+
+/* CARD */
+.card{background:white;border:1px solid var(--g200);border-radius:var(--rlg);overflow:hidden}
+.card-header{padding:.875rem 1.25rem;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:600;color:var(--navy)}
+.card-body{padding:1.25rem}
+
+/* FORMS */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:11px;font-weight:600;color:var(--g600);text-transform:uppercase;letter-spacing:.3px}
+.form-control{padding:8px 10px;border:1px solid var(--g300);border-radius:var(--r);font-size:13px;color:var(--g800);background:white;transition:border-color .15s;font-family:inherit}
+.form-control:focus{outline:none;border-color:var(--navy)}
+textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;font-family:inherit;white-space:nowrap}
+.btn-primary{background:var(--navy);color:white;border-color:var(--navy)}
+.btn-primary:hover{background:var(--navy-light)}
+.btn-gold{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:600}
+.btn-gold:hover{background:var(--gold-light)}
+.btn-outline{background:white;color:var(--g700);border-color:var(--g300)}
+.btn-outline:hover{background:var(--g50);border-color:var(--g400)}
+.btn-danger-soft{background:white;color:var(--danger);border-color:#f5c6cb}
+.btn-danger-soft:hover{background:var(--danger-bg)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-icon{padding:5px;border-radius:var(--r);background:none;border:1px solid var(--g200);cursor:pointer;color:var(--g600);transition:all .15s;font-size:14px;line-height:1}
+.btn-icon:hover{background:var(--g100);color:var(--g800)}
+
+/* ROWS */
+.row-item{display:flex;align-items:center;gap:12px;padding:.875rem 1.25rem;border-bottom:1px solid var(--g100);transition:background .12s}
+.row-item:last-child{border-bottom:none}
+.row-item:hover{background:var(--g50)}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--info-bg);color:var(--info);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.row-meta{flex:1;min-width:0}
+.row-nome{font-size:13px;font-weight:500;color:var(--g800)}
+.row-sub{font-size:11px;color:var(--g500);margin-top:2px}
+.row-actions{display:flex;gap:6px;align-items:center;flex-shrink:0}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-ok{background:var(--ok-bg);color:var(--ok)}
+.badge-warn{background:var(--warn-bg);color:var(--warn)}
+.badge-danger{background:var(--danger-bg);color:var(--danger)}
+.badge-info{background:var(--info-bg);color:var(--info)}
+.badge-purple{background:var(--purple-bg);color:var(--purple)}
+.badge-gray{background:var(--g100);color:var(--g600)}
+
+/* SEARCH */
+.search-wrap{position:relative}
+.search-wrap input{padding-left:32px}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--g400);font-size:15px}
+
+/* PENDENCIAS */
+.pend-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--g100)}
+.pend-item:last-child{border-bottom:none}
+.pend-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--navy);flex-shrink:0;cursor:pointer}
+.pend-item label{font-size:13px;flex:1;cursor:pointer}
+.pend-item label.done{text-decoration:line-through;color:var(--g400)}
+.pend-remove{background:none;border:none;color:var(--g400);cursor:pointer;font-size:14px;padding:2px}
+.pend-remove:hover{color:var(--danger)}
+.add-row{display:flex;gap:8px;margin-top:8px}
+.add-row .form-control{flex:1}
+
+/* PREVIEW */
+.preview-wrap{background:white;border:1px solid var(--g200);border-radius:var(--rlg);overflow:hidden}
+.preview-header-block{background:var(--navy);padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:flex-end}
+.preview-nome{font-size:16px;font-weight:600;color:var(--gold)}
+.preview-mes{font-size:12px;color:rgba(255,255,255,.6);margin-top:3px}
+.preview-logo-text{font-size:11px;color:rgba(255,255,255,.4);text-align:right;line-height:1.4}
+.preview-body{padding:1.25rem 1.5rem;max-height:480px;overflow-y:auto}
+.preview-body pre{font-family:inherit;font-size:13px;line-height:1.8;white-space:pre-wrap;color:var(--g700)}
+.preview-placeholder{text-align:center;padding:3rem 1rem;color:var(--g400)}
+.preview-placeholder .ph-icon{font-size:40px;display:block;margin-bottom:.75rem}
+
+/* REGISTROS */
+.reg-tipo-bar{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.reg-tipo-btn{padding:5px 12px;border-radius:20px;border:1px solid var(--g300);background:white;font-size:12px;cursor:pointer;color:var(--g600);transition:all .15s}
+.reg-tipo-btn.active-historico{background:var(--info-bg);color:var(--info);border-color:#bfdbfe}
+.reg-tipo-btn.active-solicitacao{background:var(--warn-bg);color:var(--warn);border-color:#fde68a}
+.reg-tipo-btn.active-ocorrencia{background:var(--danger-bg);color:var(--danger);border-color:#f5c6cb}
+.reg-tipo-btn.active-todos{background:var(--g100);color:var(--g700);border-color:var(--g300)}
+.reg-card{background:white;border:1px solid var(--g200);border-radius:var(--rlg);padding:1rem 1.25rem;margin-bottom:10px;transition:border-color .15s}
+.reg-card:hover{border-color:var(--g400)}
+.reg-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.reg-icon{width:32px;height:32px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.reg-icon.historico{background:var(--info-bg)}
+.reg-icon.solicitacao{background:var(--warn-bg)}
+.reg-icon.ocorrencia{background:var(--danger-bg)}
+.reg-meta{flex:1}
+.reg-cliente{font-size:13px;font-weight:500;color:var(--navy)}
+.reg-info{font-size:11px;color:var(--g500);margin-top:2px}
+.reg-texto{font-size:13px;color:var(--g700);line-height:1.6;padding:8px 10px;background:var(--g50);border-radius:var(--r)}
+.reg-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.reg-status{display:flex;align-items:center;gap:6px}
+
+/* HIST INFORMATIVO */
+.hist-item{display:flex;align-items:center;gap:12px;padding:.75rem 1.25rem;border-bottom:1px solid var(--g100)}
+.hist-item:last-child{border-bottom:none}
+.hist-icon{width:32px;height:32px;border-radius:var(--r);background:var(--ok-bg);color:var(--ok);display:flex;align-items:center;justify-content:center;font-size:14px}
+
+/* LOADING / TOAST */
+.loading-overlay{position:fixed;inset:0;background:rgba(27,42,74,.85);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:999;color:white}
+.loading-spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast-wrap{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--g900);color:white;padding:10px 16px;border-radius:var(--r);font-size:13px;display:flex;align-items:center;gap:8px;animation:slideIn .2s ease;max-width:320px}
+.toast.success{background:var(--ok)}.toast.error{background:#a53125}
+@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--g400)}
+.empty .e-icon{font-size:36px;display:block;margin-bottom:.75rem}
+.empty p{font-size:13px}
+.section-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--navy);display:flex;align-items:center;gap:8px;margin:1.25rem 0 .75rem}
+.section-title::after{content:'';flex:1;height:1px;background:var(--g200)}
+
+/* MODAL */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:500;padding:1rem}
+.modal-backdrop.open{display:flex}
+.modal{background:white;border-radius:var(--rlg);width:100%;max-width:540px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:15px;font-weight:600;color:var(--navy)}
+.modal-body{padding:1.5rem;display:flex;flex-direction:column;gap:12px}
+.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--g200);display:flex;justify-content:flex-end;gap:8px}
+
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full{grid-column:1}
+}
+</style>
+</head>
+<body>
+
+<!-- SETUP -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-logo">
+      <div class="setup-logo-icon">📊</div>
+      <div class="setup-logo-text">
+        <div class="t1">MB Contabilidade Estratégica</div>
+        <div class="t2">Sistema de informativos mensais</div>
+      </div>
+    </div>
+    <div class="info-panel">⚙️ <strong>Configuração do banco compartilhado</strong><br>Preencha os dados do Firebase para sincronizar com sua equipe em tempo real.</div>
+    <div style="margin-bottom:1rem">
+      <div class="setup-step"><div class="step-num">1</div><div><div class="step-title">Acesse console.firebase.google.com</div><div class="step-desc">Crie um projeto gratuito chamado "mb-informativos".</div></div></div>
+      <div class="setup-step"><div class="step-num">2</div><div><div class="step-title">Ative o Realtime Database</div><div class="step-desc">Bancos de dados → Realtime Database → Criar banco → Modo de teste.</div></div></div>
+      <div class="setup-step"><div class="step-num">3</div><div><div class="step-title">Copie a URL e a API Key</div><div class="step-desc">URL no topo do Realtime Database. API Key em Configurações → Geral → Seus apps → &lt;/&gt;.</div></div></div>
+    </div>
+    <div class="sf">
+      <label>URL do Realtime Database *</label>
+      <input type="text" id="fb-url" placeholder="https://mb-informativos-xxxxx-default-rtdb.firebaseio.com">
+      <label>API Key *</label>
+      <input type="text" id="fb-key" placeholder="AIzaSy...">
+      <label>Project ID *</label>
+      <input type="text" id="fb-project" placeholder="mb-informativos">
+      <label>Seu nome</label>
+      <input type="text" id="fb-usuario" placeholder="Ex: Marijane">
+    </div>
+    <button class="btn-setup" onclick="iniciarApp()">✓ Conectar e entrar</button>
+    <div style="margin-top:1rem;font-size:11px;color:var(--g500);line-height:1.6">💡 Compartilhe este arquivo HTML com sua auxiliar com os mesmos dados do Firebase — ela entra na mesma base em tempo real.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">MB</div>
+        <div class="logo-text"><div class="l1">MB Contabilidade</div><div class="l2">Estratégica</div></div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-label">Menu</div>
+        <button class="nav-item active" onclick="goTo('dashboard')"><span class="icon">📊</span> Painel</button>
+        <button class="nav-item" onclick="goTo('clientes')"><span class="icon">👥</span> Clientes</button>
+        <button class="nav-item" onclick="goTo('cadastro')"><span class="icon">➕</span> Novo cliente</button>
+        <button class="nav-item" onclick="goTo('informativo')"><span class="icon">📄</span> Gerar informativo</button>
+        <button class="nav-item" onclick="goTo('registros')"><span class="icon">📝</span> Registros</button>
+        <button class="nav-item" onclick="goTo('historico')"><span class="icon">📋</span> Hist. informativos</button>
+      </nav>
+      <div class="sidebar-user">
+        <div class="user-av" id="user-avatar">MB</div>
+        <div><div class="u-name" id="user-name">Usuário</div><div class="u-role">MB Contabilidade</div></div>
+        <button class="btn-logout" onclick="logout()" title="Sair">⎋</button>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="topbar">
+        <div>
+          <div class="topbar-title" id="topbar-title">Painel</div>
+          <div class="topbar-sub" id="topbar-sub">Visão geral</div>
+        </div>
+        <div class="sync-badge"><div class="sync-dot"></div>Sincronizado em tempo real</div>
+      </div>
+
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <div class="screen active" id="screen-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-label">Total de clientes</div><div class="stat-val" id="s-total">—</div></div>
+            <div class="stat-card"><div class="stat-label">Com pendências</div><div class="stat-val warn" id="s-pend">—</div></div>
+            <div class="stat-card"><div class="stat-label">Informativos enviados</div><div class="stat-val ok" id="s-env">—</div></div>
+            <div class="stat-card"><div class="stat-label">Registros abertos</div><div class="stat-val purple" id="s-reg">—</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="card">
+              <div class="card-header"><div class="card-title">Clientes recentes</div><button class="btn btn-outline btn-sm" onclick="goTo('clientes')">Ver todos</button></div>
+              <div id="dash-clientes"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Registros recentes</div><button class="btn btn-outline btn-sm" onclick="goTo('registros')">Ver todos</button></div>
+              <div id="dash-registros"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLIENTES -->
+        <div class="screen" id="screen-clientes">
+          <div style="display:flex;gap:10px;margin-bottom:1rem;align-items:center">
+            <div class="search-wrap" style="flex:1">
+              <span class="search-icon">🔍</span>
+              <input class="form-control" type="text" id="busca" placeholder="Buscar por nome ou CNPJ..." oninput="filtrarClientes()">
+            </div>
+            <button class="btn btn-primary" onclick="goTo('cadastro')">+ Novo cliente</button>
+          </div>
+          <div class="card"><div id="lista-clientes-wrap"></div></div>
+        </div>
+
+        <!-- CADASTRO -->
+        <div class="screen" id="screen-cadastro">
+          <div style="max-width:640px">
+            <div class="card">
+              <div class="card-header"><div class="card-title">Dados da empresa</div></div>
+              <div class="card-body">
+                <div class="form-grid">
+                  <div class="form-group"><label class="form-label">Razão social *</label><input class="form-control" type="text" id="c-razao" placeholder="Nome empresarial"></div>
+                  <div class="form-group"><label class="form-label">Nome fantasia</label><input class="form-control" type="text" id="c-fantasia" placeholder="Como é conhecido"></div>
+                  <div class="form-group"><label class="form-label">CNPJ</label><input class="form-control" type="text" id="c-cnpj" placeholder="00.000.000/0001-00" maxlength="18" oninput="maskCNPJ(this)"></div>
+                  <div class="form-group"><label class="form-label">Regime tributário</label>
+                    <select class="form-control" id="c-regime"><option value="">Selecione...</option><option>Simples Nacional</option><option>Lucro Presumido</option><option>Lucro Real</option><option>MEI</option></select>
+                  </div>
+                  <div class="form-group"><label class="form-label">Setor</label>
+                    <select class="form-control" id="c-setor"><option value="">Selecione...</option><option>Comércio</option><option>Serviços</option><option>Indústria</option><option>Saúde</option><option>Educação</option><option>Construção</option><option>Agronegócio</option><option>Tecnologia</option><option>Outro</option></select>
+                  </div>
+                  <div class="form-group"><label class="form-label">CNAE principal</label><input class="form-control" type="text" id="c-cnae" placeholder="Ex: 4712-1/00"></div>
+                  <div class="form-group"><label class="form-label">Responsável / Sócio</label><input class="form-control" type="text" id="c-resp" placeholder="Nome completo"></div>
+                  <div class="form-group"><label class="form-label">E-mail de contato</label><input class="form-control" type="text" id="c-email" placeholder="email@empresa.com.br"></div>
+                  <div class="form-group"><label class="form-label">Funcionários CLT</label><input class="form-control" type="number" id="c-func" placeholder="0" min="0"></div>
+                  <div class="form-group"><label class="form-label">Pró-labore</label><input class="form-control" type="number" id="c-prolabore" placeholder="0" min="0"></div>
+                  <div class="form-group full"><label class="form-label">Observações internas</label><textarea class="form-control" id="c-obs" placeholder="Informações relevantes sobre o cliente..."></textarea></div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:1rem">
+                  <button class="btn btn-primary" onclick="salvarCliente()">💾 Salvar cliente</button>
+                  <button class="btn btn-outline" onclick="limparFormCliente()">Limpar</button>
+                </div>
+                <div id="form-feedback" style="margin-top:10px;font-size:13px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INFORMATIVO -->
+        <div class="screen" id="screen-informativo">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
+            <div>
+              <div class="card">
+                <div class="card-header"><div class="card-title">Configurar informativo</div></div>
+                <div class="card-body">
+                  <div class="form-group"><label class="form-label">Cliente *</label><select class="form-control" id="inf-cliente" onchange="selecionarCliente()"><option value="">Selecione...</option></select></div>
+                  <div class="form-group" style="margin-top:10px"><label class="form-label">Mês de referência</label><input class="form-control" type="month" id="inf-mes"></div>
+                </div>
+              </div>
+              <div class="card" style="margin-top:12px">
+                <div class="card-header"><div class="card-title">📌 Orientações tributárias</div></div>
+                <div class="card-body"><textarea class="form-control" id="inf-trib" placeholder="Ex: DAS vence dia 20, DCTF mensal pendente..." style="min-height:90px"></textarea></div>
+              </div>
+              <div class="card" style="margin-top:12px">
+                <div class="card-header"><div class="card-title">👥 Folha de pagamento</div></div>
+                <div class="card-body"><textarea class="form-control" id="inf-folha" placeholder="Ex: Folha processada. 3 CLTs. Total líquido R$ 9.400..." style="min-height:80px"></textarea></div>
+              </div>
+              <div class="card" style="margin-top:12px">
+                <div class="card-header"><div class="card-title">📁 Pendências — documentos</div></div>
+                <div class="card-body">
+                  <div id="pend-docs-lista"></div>
+                  <div class="add-row"><input class="form-control" type="text" id="pend-doc-input" placeholder="Adicionar pendência..." style="font-size:13px" onkeydown="if(event.key==='Enter')addItem('doc')"><button class="btn btn-outline btn-sm" onclick="addItem('doc')">+ Add</button></div>
+                </div>
+              </div>
+              <div class="card" style="margin-top:12px">
+                <div class="card-header"><div class="card-title">⚠️ Pendências tributárias</div></div>
+                <div class="card-body">
+                  <div id="pend-trib-lista"></div>
+                  <div class="add-row"><input class="form-control" type="text" id="pend-trib-input" placeholder="Adicionar pendência..." style="font-size:13px" onkeydown="if(event.key==='Enter')addItem('trib')"><button class="btn btn-outline btn-sm" onclick="addItem('trib')">+ Add</button></div>
+                </div>
+              </div>
+              <div class="card" style="margin-top:12px">
+                <div class="card-header"><div class="card-title">✅ Plano de ação</div></div>
+                <div class="card-body">
+                  <div id="plano-lista"></div>
+                  <div class="add-row"><input class="form-control" type="text" id="plano-input" placeholder="Adicionar ação..." style="font-size:13px" onkeydown="if(event.key==='Enter')addItem('plano')"><button class="btn btn-outline btn-sm" onclick="addItem('plano')">+ Add</button></div>
+                </div>
+              </div>
+              <button class="btn btn-gold" style="width:100%;margin-top:1rem;justify-content:center;padding:11px" onclick="gerarInformativo()">✨ Gerar informativo com IA</button>
+            </div>
+            <div>
+              <div class="card-title" style="margin-bottom:.75rem">Pré-visualização</div>
+              <div class="preview-wrap" id="preview-wrap">
+                <div class="preview-placeholder"><span class="ph-icon">📄</span><p>Preencha as informações e clique em <strong>Gerar informativo com IA</strong></p></div>
+              </div>
+              <div id="preview-actions" style="display:none;margin-top:10px;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-outline btn-sm" onclick="copiarTexto()">📋 Copiar texto</button>
+                <button class="btn btn-primary btn-sm" onclick="registrarEnvio()">✓ Registrar envio</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REGISTROS -->
+        <div class="screen" id="screen-registros">
+          <div style="display:flex;gap:10px;margin-bottom:1rem;align-items:center;flex-wrap:wrap">
+            <div class="reg-tipo-bar" style="flex:1;margin-bottom:0">
+              <button class="reg-tipo-btn active-todos" onclick="filtroReg='todos';renderRegistros()" id="rfbtn-todos">Todos</button>
+              <button class="reg-tipo-btn" onclick="filtroReg='historico';renderRegistros()" id="rfbtn-historico">📘 Histórico</button>
+              <button class="reg-tipo-btn" onclick="filtroReg='solicitacao';renderRegistros()" id="rfbtn-solicitacao">📋 Solicitação</button>
+              <button class="reg-tipo-btn" onclick="filtroReg='ocorrencia';renderRegistros()" id="rfbtn-ocorrencia">🚨 Ocorrência</button>
+            </div>
+            <button class="btn btn-primary" onclick="abrirModalRegistro()">+ Novo registro</button>
+          </div>
+          <div id="lista-registros"></div>
+        </div>
+
+        <!-- HIST INFORMATIVOS -->
+        <div class="screen" id="screen-historico">
+          <div class="card">
+            <div class="card-header"><div class="card-title">Histórico de informativos enviados</div></div>
+            <div id="historico-lista"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL REGISTRO -->
+<div class="modal-backdrop" id="modal-registro">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-reg-titulo">Novo registro</div>
+      <button class="btn-icon" onclick="fecharModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Cliente *</label><select class="form-control" id="reg-cliente"><option value="">Selecione...</option></select></div>
+      <div class="form-group">
+        <label class="form-label">Tipo *</label>
+        <select class="form-control" id="reg-tipo">
+          <option value="">Selecione...</option>
+          <option value="historico">📘 Histórico — comunicação, contato, reunião</option>
+          <option value="solicitacao">📋 Solicitação — pedido do cliente ou do escritório</option>
+          <option value="ocorrencia">🚨 Ocorrência — problema, erro, prazo perdido</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Título *</label><input class="form-control" type="text" id="reg-titulo" placeholder="Resumo do registro..."></div>
+      <div class="form-group"><label class="form-label">Descrição</label><textarea class="form-control" id="reg-descricao" placeholder="Detalhes, contexto, próximos passos..." style="min-height:100px"></textarea></div>
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select class="form-control" id="reg-status">
+          <option value="aberto">Aberto</option>
+          <option value="em_andamento">Em andamento</option>
+          <option value="resolvido">Resolvido</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="fecharModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarRegistro()">💾 Salvar registro</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING / TOASTS -->
+<div class="loading-overlay" id="loading" style="display:none">
+  <div class="loading-spinner"></div>
+  <div id="loading-msg" style="font-size:14px">Carregando...</div>
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+// ─── ESTADO ───────────────────────────────────────────────────────────────────
+let db=null,clientes={},historico={},registros={};
+let pendDocs=[],pendTribs=[],planoAcoes=[],informativoTexto='',currentUser='';
+let filtroReg='todos';
+let editandoRegId=null;
+
+// ─── FIREBASE ─────────────────────────────────────────────────────────────────
+function iniciarApp(){
+  const url=v('fb-url'),key=v('fb-key'),proj=v('fb-project'),usuario=v('fb-usuario')||'Usuário';
+  if(!url||!key||!proj){toast('Preencha todos os campos obrigatórios.','error');return;}
+  currentUser=usuario;
+  ls('mb_fb_url',url);ls('mb_fb_key',key);ls('mb_fb_proj',proj);ls('mb_usuario',usuario);
+  conectar(url,key,proj,usuario);
+}
+
+function conectar(url,key,proj,usuario){
+  showLoading('Conectando...');
+  try{
+    const app=firebase.initializeApp({apiKey:key,databaseURL:url,projectId:proj});
+    db=firebase.database(app);
+    db.ref('.info/connected').on('value',snap=>{
+      if(snap.val()===true){
+        hideLoading();
+        el('setup-screen').style.display='none';
+        el('app').style.display='block';
+        el('user-name').textContent=usuario;
+        el('user-avatar').textContent=usuario.slice(0,2).toUpperCase();
+        el('s-mes')&&(el('s-mes').textContent=new Date().toLocaleDateString('pt-BR',{month:'long',year:'numeric'}));
+        iniciarListeners();
+      }
+    });
+  }catch(e){hideLoading();toast('Erro ao conectar: '+e.message,'error');}
+}
+
+function iniciarListeners(){
+  db.ref('clientes').on('value',snap=>{clientes=snap.val()||{};renderDash();renderListaClientes();renderSelectClientes();atualizarStats();});
+  db.ref('historico').on('value',snap=>{historico=snap.val()||{};renderHistorico();atualizarStats();});
+  db.ref('registros').on('value',snap=>{registros=snap.val()||{};renderRegistros();renderDashRegistros();atualizarStats();});
+}
+
+window.addEventListener('load',()=>{
+  const url=lg('mb_fb_url'),key=lg('mb_fb_key'),proj=lg('mb_fb_proj'),usuario=lg('mb_usuario')||'Usuário';
+  if(url&&key&&proj){
+    el('fb-url').value=url;el('fb-key').value=key;el('fb-project').value=proj;el('fb-usuario').value=usuario;
+    conectar(url,key,proj,usuario);
+  }
+});
+
+function logout(){if(!confirm('Sair?'))return;localStorage.clear();location.reload();}
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+const el=id=>document.getElementById(id);
+const v=id=>el(id).value.trim();
+const ls=(k,val)=>localStorage.setItem(k,val);
+const lg=k=>localStorage.getItem(k);
+function initials(n){return n.split(' ').slice(0,2).map(x=>x[0]).join('').toUpperCase()}
+function arr2obj(obj){return Object.entries(obj||{}).map(([id,v])=>({...v,id}))}
+function showLoading(msg){el('loading').style.display='flex';el('loading-msg').textContent=msg}
+function hideLoading(){el('loading').style.display='none'}
+function toast(msg,type=''){
+  const w=el('toast-wrap'),t=document.createElement('div');
+  t.className='toast '+(type||'');t.textContent=msg;w.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+function maskCNPJ(e){
+  let v=e.value.replace(/\D/g,'').slice(0,14);
+  v=v.replace(/^(\d{2})(\d)/,'$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3')
+     .replace(/\.(\d{3})(\d)/,'.$1/$2').replace(/(\d{4})(\d)/,'$1-$2');
+  e.value=v;
+}
+
+function atualizarStats(){
+  const ca=arr2obj(clientes),ra=arr2obj(registros);
+  el('s-total').textContent=ca.length;
+  el('s-pend').textContent=ca.filter(c=>(c.pendencias||0)>0).length;
+  el('s-env').textContent=Object.keys(historico).length;
+  el('s-reg').textContent=ra.filter(r=>r.status!=='resolvido').length;
+}
+
+// ─── NAVEGAÇÃO ────────────────────────────────────────────────────────────────
+const screenTitles={
+  dashboard:['Painel','Visão geral'],clientes:['Clientes','Base de clientes'],
+  cadastro:['Novo cliente','Cadastrar cliente'],informativo:['Gerar informativo','Informativo mensal com IA'],
+  registros:['Registros','Histórico, solicitações e ocorrências'],historico:['Hist. informativos','Informativos enviados'],
+};
+const screenOrder=['dashboard','clientes','cadastro','informativo','registros','historico'];
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  el('screen-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item')[screenOrder.indexOf(id)].classList.add('active');
+  const[title,sub]=screenTitles[id];
+  el('topbar-title').textContent=title;el('topbar-sub').textContent=sub;
+  if(id==='informativo')renderSelectClientes();
+  if(id==='registros'){renderSelectRegistro();renderRegistros();}
+}
+
+// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+function renderDash(){
+  const arr=arr2obj(clientes).slice(-5).reverse();
+  const wrap=el('dash-clientes');
+  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">👥</span><p>Nenhum cliente ainda.</p></div>';return;}
+  wrap.innerHTML=arr.map(c=>`
+    <div class="row-item">
+      <div class="avatar">${initials(c.razao)}</div>
+      <div class="row-meta"><div class="row-nome">${c.razao}</div><div class="row-sub">${c.regime||''}</div></div>
+      <div class="row-actions">
+        <span class="badge ${(c.pendencias||0)>0?'badge-warn':'badge-ok'}">${(c.pendencias||0)>0?c.pendencias+' pend.':'Em dia'}</span>
+        <button class="btn btn-outline btn-sm" onclick="irParaInformativo('${c.id}')">📄</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderDashRegistros(){
+  const arr=arr2obj(registros).filter(r=>r.status!=='resolvido').slice(-4).reverse();
+  const wrap=el('dash-registros');
+  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">📝</span><p>Nenhum registro aberto.</p></div>';return;}
+  wrap.innerHTML=arr.map(r=>`
+    <div class="row-item">
+      <div class="avatar" style="background:${tipoStyle(r.tipo).bg};color:${tipoStyle(r.tipo).color}">${tipoStyle(r.tipo).emoji}</div>
+      <div class="row-meta"><div class="row-nome">${r.titulo}</div><div class="row-sub">${r.clienteNome||''} · ${r.data||''}</div></div>
+      <span class="badge ${statusBadge(r.status)}">${statusLabel(r.status)}</span>
+    </div>`).join('');
+}
+
+// ─── CLIENTES ─────────────────────────────────────────────────────────────────
+function renderListaClientes(){
+  const q=(el('busca')?.value||'').toLowerCase();
+  const arr=arr2obj(clientes).filter(c=>!q||c.razao.toLowerCase().includes(q)||(c.cnpj||'').includes(q));
+  const wrap=el('lista-clientes-wrap');if(!wrap)return;
+  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">🔍</span><p>Nenhum cliente encontrado.</p></div>';return;}
+  wrap.innerHTML=arr.map(c=>`
+    <div class="row-item">
+      <div class="avatar">${initials(c.razao)}</div>
+      <div class="row-meta">
+        <div class="row-nome">${c.razao}${c.fantasia?' <span style="color:var(--g400);font-size:11px">('+c.fantasia+')</span>':''}</div>
+        <div class="row-sub">${c.cnpj||'CNPJ não informado'} · ${c.regime||''} · ${c.setor||''}</div>
+      </div>
+      <div class="row-actions">
+        <span class="badge ${(c.pendencias||0)>0?'badge-warn':'badge-ok'}">${(c.pendencias||0)>0?c.pendencias+' pend.':'Em dia'}</span>
+        <button class="btn btn-outline btn-sm" onclick="irParaInformativo('${c.id}')">📄 Informativo</button>
+        <button class="btn-icon" onclick="excluirCliente('${c.id}')" title="Excluir">🗑</button>
+      </div>
+    </div>`).join('');
+}
+function filtrarClientes(){renderListaClientes();}
+
+// ─── CADASTRO ─────────────────────────────────────────────────────────────────
+function salvarCliente(){
+  const razao=v('c-razao');
+  if(!razao){toast('Razão social é obrigatória.','error');return;}
+  const id='c_'+Date.now();
+  const c={razao,fantasia:v('c-fantasia'),cnpj:v('c-cnpj'),regime:el('c-regime').value,
+    setor:el('c-setor').value,cnae:v('c-cnae'),resp:v('c-resp'),email:v('c-email'),
+    func:parseInt(el('c-func').value)||0,prolabore:parseInt(el('c-prolabore').value)||0,
+    obs:v('c-obs'),pendencias:0,cadastradoPor:currentUser,dataCad:new Date().toLocaleDateString('pt-BR')};
+  showLoading('Salvando...');
+  db.ref('clientes/'+id).set(c)
+    .then(()=>{hideLoading();toast('Cliente salvo!','success');limparFormCliente();})
+    .catch(e=>{hideLoading();toast('Erro: '+e.message,'error');});
+}
+function limparFormCliente(){
+  ['c-razao','c-fantasia','c-cnpj','c-cnae','c-resp','c-email','c-obs'].forEach(id=>el(id).value='');
+  ['c-regime','c-setor'].forEach(id=>el(id).value='');
+  ['c-func','c-prolabore'].forEach(id=>el(id).value='');
+  el('form-feedback').innerHTML='';
+}
+function excluirCliente(id){
+  if(!confirm('Excluir este cliente?'))return;
+  db.ref('clientes/'+id).remove().then(()=>toast('Cliente removido.','success')).catch(e=>toast('Erro: '+e.message,'error'));
+}
+
+// ─── INFORMATIVO ──────────────────────────────────────────────────────────────
+function renderSelectClientes(){
+  const sel=el('inf-cliente');if(!sel)return;
+  const val=sel.value;
+  sel.innerHTML='<option value="">Selecione...</option>'+arr2obj(clientes).map(c=>`<option value="${c.id}">${c.razao}</option>`).join('');
+  if(val)sel.value=val;
+  el('inf-mes').value=new Date().toISOString().slice(0,7);
+}
+function selecionarCliente(){
+  const id=el('inf-cliente').value;if(!id)return;
+  const c=clientes[id];if(!c)return;
+  pendDocs=[];pendTribs=[];planoAcoes=[];
+  el('inf-folha').value=(c.func>0||c.prolabore>0)?`Folha processada. ${c.func} CLT(s) + ${c.prolabore} pró-labore.`:'';
+  el('inf-trib').value='';
+  renderPendListas();
+}
+function addItem(tipo){
+  const ids={doc:'pend-doc-input',trib:'pend-trib-input',plano:'plano-input'};
+  const inp=el(ids[tipo]);const val=inp.value.trim();if(!val)return;
+  if(tipo==='doc')pendDocs.push({txt:val,ok:false});
+  if(tipo==='trib')pendTribs.push({txt:val,ok:false});
+  if(tipo==='plano')planoAcoes.push({txt:val,ok:false});
+  inp.value='';renderPendListas();
+}
+function renderPendListas(){
+  const r=(arr,elId,tipo)=>{
+    const e=el(elId);if(!e)return;
+    e.innerHTML=arr.length?arr.map((p,i)=>`
+      <div class="pend-item">
+        <input type="checkbox" ${p.ok?'checked':''} onchange="toggleItem('${tipo}',${i})">
+        <label class="${p.ok?'done':''}">${p.txt}</label>
+        <button class="pend-remove" onclick="removeItem('${tipo}',${i})">✕</button>
+      </div>`).join(''):'<div style="font-size:12px;color:var(--g400);padding:4px 0">Nenhum item.</div>';
+  };
+  r(pendDocs,'pend-docs-lista','doc');r(pendTribs,'pend-trib-lista','trib');r(planoAcoes,'plano-lista','plano');
+}
+function toggleItem(tipo,i){
+  if(tipo==='doc')pendDocs[i].ok=!pendDocs[i].ok;
+  if(tipo==='trib')pendTribs[i].ok=!pendTribs[i].ok;
+  if(tipo==='plano')planoAcoes[i].ok=!planoAcoes[i].ok;
+  renderPendListas();
+}
+function removeItem(tipo,i){
+  if(tipo==='doc')pendDocs.splice(i,1);
+  if(tipo==='trib')pendTribs.splice(i,1);
+  if(tipo==='plano')planoAcoes.splice(i,1);
+  renderPendListas();
+}
+function irParaInformativo(id){goTo('informativo');setTimeout(()=>{el('inf-cliente').value=id;selecionarCliente();},50);}
+
+async function gerarInformativo(){
+  const id=el('inf-cliente').value;if(!id){toast('Selecione um cliente.','error');return;}
+  const c=clientes[id];
+  const mes=el('inf-mes').value;
+  const mesFmt=mes?new Date(mes+'-02').toLocaleDateString('pt-BR',{month:'long',year:'numeric'}):'';
+  const trib=el('inf-trib').value,folha=el('inf-folha').value;
+  const pd=pendDocs.filter(p=>!p.ok).map(p=>p.txt);
+  const pt=pendTribs.filter(p=>!p.ok).map(p=>p.txt);
+  const plano=planoAcoes.map((p,i)=>(i+1)+'. '+p.txt);
+  const wrap=el('preview-wrap');
+  wrap.innerHTML='<div class="preview-placeholder"><span class="ph-icon">⏳</span><p>Gerando com IA...</p></div>';
+  el('preview-actions').style.display='none';
+
+  const prompt=`Você é assistente sênior da MB Contabilidade Estratégica, escritório contábil estratégico em Campo Grande-MS, fundado por Marijane, posicionado como parceiro estratégico dos clientes "do CPF ao CNPJ".
+
+Crie um informativo mensal profissional e consultivo para o cliente abaixo.
+Linguagem clara para empresários — sem juridiquês, mas com autoridade técnica.
+Tom: parceiro estratégico, não apenas prestador de serviço.
+
+CLIENTE: ${c.razao}${c.fantasia?' / '+c.fantasia:''}
+CNPJ: ${c.cnpj||'não informado'} | REGIME: ${c.regime||'não informado'} | SETOR: ${c.setor||'não informado'}
+RESPONSÁVEL: ${c.resp||'não informado'} | CLT: ${c.func||0} | PRÓ-LABORE: ${c.prolabore||0}
+MÊS: ${mesFmt}${c.obs?'\nOBS: '+c.obs:''}
+
+ORIENTAÇÕES TRIBUTÁRIAS: ${trib||'nenhuma informação específica'}
+FOLHA DE PAGAMENTO: ${folha||'não aplicável'}
+PENDÊNCIAS DOCUMENTOS: ${pd.length?pd.join('; '):'NENHUMA — tudo em ordem'}
+PENDÊNCIAS TRIBUTÁRIAS: ${pt.length?pt.join('; '):'NENHUMA — tudo em ordem'}
+PLANO DE AÇÃO: ${plano.length?plano.join(' | '):'não informado'}
+
+Escreva o informativo com estas seções em texto corrido (sem markdown, sem asteriscos):
+
+SAUDAÇÃO
+ORIENTAÇÕES TRIBUTÁRIAS DO MÊS
+FOLHA DE PAGAMENTO
+PENDÊNCIAS — DOCUMENTOS
+PENDÊNCIAS TRIBUTÁRIAS
+PLANO DE AÇÃO
+ENCERRAMENTO
+
+Se não houver pendências, informe positivamente. Seja específico, objetivo e consultivo.`;
+
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await r.json();
+    informativoTexto=(data.content||[]).map(b=>b.text||'').join('');
+    wrap.innerHTML=`
+      <div class="preview-header-block">
+        <div><div class="preview-nome">${c.razao}</div><div class="preview-mes">Informativo de ${mesFmt}</div></div>
+        <div class="preview-logo-text">MB Contabilidade<br>Estratégica</div>
+      </div>
+      <div class="preview-body"><pre>${informativoTexto}</pre></div>`;
+    el('preview-actions').style.display='flex';
+    db.ref('clientes/'+id+'/pendencias').set(pd.length+pt.length);
+  }catch(e){
+    wrap.innerHTML='<div class="preview-placeholder"><span class="ph-icon">❌</span><p>Erro ao gerar. Publique o arquivo no Vercel para usar a IA.</p></div>';
+    toast('Erro: '+e.message,'error');
+  }
+}
+function copiarTexto(){
+  if(!informativoTexto)return;
+  navigator.clipboard.writeText(informativoTexto).then(()=>toast('Texto copiado!','success')).catch(()=>toast('Não foi possível copiar.','error'));
+}
+function registrarEnvio(){
+  const id=el('inf-cliente').value;const c=clientes[id];
+  if(!c||!informativoTexto){toast('Gere o informativo primeiro.','error');return;}
+  const hid='h_'+Date.now();
+  db.ref('historico/'+hid).set({
+    clienteId:id,clienteNome:c.razao,mes:el('inf-mes').value,enviadoPor:currentUser,
+    data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})
+  }).then(()=>toast('Envio registrado!','success')).catch(e=>toast('Erro: '+e.message,'error'));
+}
+
+// ─── REGISTROS ────────────────────────────────────────────────────────────────
+function tipoStyle(tipo){
+  if(tipo==='historico')return{bg:'var(--info-bg)',color:'var(--info)',emoji:'📘'};
+  if(tipo==='solicitacao')return{bg:'var(--warn-bg)',color:'var(--warn)',emoji:'📋'};
+  if(tipo==='ocorrencia')return{bg:'var(--danger-bg)',color:'var(--danger)',emoji:'🚨'};
+  return{bg:'var(--g100)',color:'var(--g600)',emoji:'📝'};
+}
+function tipoLabel(tipo){return{historico:'Histórico',solicitacao:'Solicitação',ocorrencia:'Ocorrência'}[tipo]||tipo;}
+function tipoBadgeClass(tipo){return{historico:'badge-info',solicitacao:'badge-warn',ocorrencia:'badge-danger'}[tipo]||'badge-gray';}
+function statusLabel(s){return{aberto:'Aberto',em_andamento:'Em andamento',resolvido:'Resolvido'}[s]||s;}
+function statusBadge(s){return{aberto:'badge-warn',em_andamento:'badge-info',resolvido:'badge-ok'}[s]||'badge-gray';}
+
+function renderSelectRegistro(){
+  const sel=el('reg-cliente');if(!sel)return;
+  const val=sel.value;
+  sel.innerHTML='<option value="">Selecione...</option>'+arr2obj(clientes).map(c=>`<option value="${c.id}">${c.razao}</option>`).join('');
+  if(val)sel.value=val;
+}
+
+function renderRegistros(){
+  const filtros=['todos','historico','solicitacao','ocorrencia'];
+  filtros.forEach(f=>{
+    const btn=el('rfbtn-'+f);if(!btn)return;
+    btn.className='reg-tipo-btn'+(filtroReg===f?' active-'+f:'');
+  });
+  let arr=arr2obj(registros).sort((a,b)=>b.id.localeCompare(a.id));
+  if(filtroReg!=='todos')arr=arr.filter(r=>r.tipo===filtroReg);
+  const wrap=el('lista-registros');if(!wrap)return;
+  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">📝</span><p>Nenhum registro encontrado.</p></div>';return;}
+  wrap.innerHTML=arr.map(r=>{
+    const ts=tipoStyle(r.tipo);
+    return`<div class="reg-card">
+      <div class="reg-header">
+        <div class="reg-icon ${r.tipo||''}" style="background:${ts.bg}">${ts.emoji}</div>
+        <div class="reg-meta">
+          <div class="reg-cliente">${r.titulo}</div>
+          <div class="reg-info">${r.clienteNome||'—'} · <span class="badge ${tipoBadgeClass(r.tipo)}">${tipoLabel(r.tipo)}</span> · ${r.data||''} · ${r.registradoPor||''}</div>
+        </div>
+      </div>
+      ${r.descricao?`<div class="reg-texto">${r.descricao}</div>`:''}
+      <div class="reg-footer">
+        <div class="reg-status">
+          <span class="badge ${statusBadge(r.status)}">${statusLabel(r.status)}</span>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-outline btn-sm" onclick="editarRegistro('${r.id}')">✏️ Editar</button>
+          ${r.status!=='resolvido'?`<button class="btn btn-outline btn-sm" onclick="resolverRegistro('${r.id}')">✓ Resolver</button>`:''}
+          <button class="btn-icon" onclick="excluirRegistro('${r.id}')" title="Excluir">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function abrirModalRegistro(){
+  editandoRegId=null;
+  el('modal-reg-titulo').textContent='Novo registro';
+  el('reg-cliente').value='';el('reg-tipo').value='';
+  el('reg-titulo').value='';el('reg-descricao').value='';el('reg-status').value='aberto';
+  renderSelectRegistro();
+  el('modal-registro').classList.add('open');
+}
+
+function editarRegistro(id){
+  editandoRegId=id;
+  const r=registros[id];if(!r)return;
+  el('modal-reg-titulo').textContent='Editar registro';
+  renderSelectRegistro();
+  setTimeout(()=>{
+    el('reg-cliente').value=r.clienteId||'';
+    el('reg-tipo').value=r.tipo||'';
+    el('reg-titulo').value=r.titulo||'';
+    el('reg-descricao').value=r.descricao||'';
+    el('reg-status').value=r.status||'aberto';
+  },50);
+  el('modal-registro').classList.add('open');
+}
+
+function fecharModal(){el('modal-registro').classList.remove('open');}
+
+function salvarRegistro(){
+  const clienteId=el('reg-cliente').value;
+  const tipo=el('reg-tipo').value;
+  const titulo=el('reg-titulo').value.trim();
+  if(!clienteId||!tipo||!titulo){toast('Cliente, tipo e título são obrigatórios.','error');return;}
+  const c=clientes[clienteId];
+  const id=editandoRegId||('r_'+Date.now());
+  const reg={
+    clienteId,clienteNome:c?.razao||'',tipo,titulo,
+    descricao:el('reg-descricao').value.trim(),
+    status:el('reg-status').value,
+    registradoPor:currentUser,
+    data:editandoRegId?(registros[editandoRegId]?.data||new Date().toLocaleDateString('pt-BR')):new Date().toLocaleDateString('pt-BR'),
+    hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+  };
+  showLoading('Salvando...');
+  db.ref('registros/'+id).set(reg)
+    .then(()=>{hideLoading();toast('Registro salvo!','success');fecharModal();})
+    .catch(e=>{hideLoading();toast('Erro: '+e.message,'error');});
+}
+
+function resolverRegistro(id){
+  db.ref('registros/'+id+'/status').set('resolvido')
+    .then(()=>toast('Marcado como resolvido!','success'))
+    .catch(e=>toast('Erro: '+e.message,'error'));
+}
+
+function excluirRegistro(id){
+  if(!confirm('Excluir este registro?'))return;
+  db.ref('registros/'+id).remove().then(()=>toast('Registro removido.','success')).catch(e=>toast('Erro: '+e.message,'error'));
+}
+
+// ─── HISTÓRICO INFORMATIVOS ───────────────────────────────────────────────────
+function renderHistorico(){
+  const arr=arr2obj(historico).sort((a,b)=>b.id.localeCompare(a.id));
+  const wrap=el('historico-lista');if(!wrap)return;
+  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">📋</span><p>Nenhum informativo registrado.</p></div>';return;}
+  wrap.innerHTML=arr.map(h=>`
+    <div class="hist-item">
+      <div class="hist-icon">✉️</div>
+      <div class="row-meta"><div class="row-nome">${h.clienteNome}</div><div class="row-sub">Ref: ${h.mes||'—'} · Enviado em ${h.data||'—'} às ${h.hora||'—'} por ${h.enviadoPor||'—'}</div></div>
+      <button class="btn btn-outline btn-sm" onclick="irParaInformativo('${h.clienteId}')">Novo</button>
+    </div>`).join('');
+}
+</script>
+</body>
+</html>
