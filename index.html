@@ -616,7 +616,12 @@ function renderPendListas(){
         <input type="checkbox" ${p.ok?'checked':''} onchange="toggleItem('${tipo}',${i})">
         <div class="pend-item-body">
           <div class="pend-item-txt ${p.ok?'done':''}">${p.txt}</div>
-          ${p.link?`<div class="pend-item-link">📎 <a href="${p.link}" target="_blank">${p.linkNome||'Ver arquivo no Drive'}</a> <button onclick="removerLink('${tipo}',${i})" style="background:none;border:none;cursor:pointer;color:var(--g400);font-size:12px">✕</button></div>`:`<span class="pend-add-link" onclick="abrirModalLink('${tipo}',${i})">📎 Adicionar link do Drive</span>`}
+          <div style="display:flex;align-items:center;gap:8px;margin-top:5px">
+            ${p.link
+              ?`<a href="${p.link}" target="_blank" style="font-size:11px;color:var(--info);text-decoration:none;display:flex;align-items:center;gap:3px">📎 ${p.linkNome||'Ver no Drive'}</a>
+                <button onclick="removerLink('${tipo}',${i})" style="background:none;border:none;cursor:pointer;color:var(--g400);font-size:11px;padding:0">✕ remover</button>`
+              :`<button onclick="abrirModalLink('${tipo}',${i})" style="background:var(--g100);border:1px dashed var(--g300);border-radius:5px;padding:2px 8px;font-size:11px;color:var(--g600);cursor:pointer;font-family:inherit">📎 Anexar link do Drive</button>`}
+          </div>
         </div>
         <button class="pend-remove" onclick="removeItem('${tipo}',${i})">✕</button>
       </div>`).join(''):'<div style="font-size:12px;color:var(--g400);padding:4px 0">Nenhum item.</div>';
@@ -691,24 +696,18 @@ function baixarTxt(){
 }
 async function exportarGamma(){
   if(!informativoTexto){toast('Gere o informativo primeiro.','error');return;}
-  const akey=lg('mb_akey');
   const c=clientes[el('inf-cliente').value];
   const mes=el('inf-mes').value;
   const mesFmt=mes?new Date(mes+'-02').toLocaleDateString('pt-BR',{month:'long',year:'numeric'}):'';
-  toast('Exportando para Gamma...','');
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':akey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,messages:[{role:'user',content:`Converta este informativo contábil em um outline para apresentação no Gamma App com 6 slides. Retorne APENAS um array JSON com objetos {title, description}. Sem markdown, sem explicação.\n\n${informativoTexto}`}]})});
-    const data=await r.json();
-    const texto=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
-    const slides=JSON.parse(texto);
-    const outline=slides.map(s=>`${s.title}\n${s.description}`).join('\n\n');
-    const gammaUrl=`https://gamma.app/create?text=${encodeURIComponent(outline)}&title=${encodeURIComponent('Informativo '+mesFmt+' — '+(c?.razao||''))}`;
-    el('gamma-link').href=gammaUrl;el('gamma-link').textContent='Clique aqui para abrir no Gamma →';
-    el('gamma-result').style.display='flex';
-    window.open(gammaUrl,'_blank');
-    toast('Gamma aberto!','success');
-  }catch(e){toast('Erro ao exportar: '+e.message,'error');}
+  // Monta o outline direto do texto — sem depender de JSON da IA
+  const titulo='Informativo '+mesFmt+' — '+(c?.razao||'MB Contabilidade');
+  const outline=`# ${titulo}\n\n${informativoTexto}`;
+  const gammaUrl='https://gamma.app/docs/new?text='+encodeURIComponent(outline);
+  el('gamma-link').href=gammaUrl;
+  el('gamma-link').textContent='Clique aqui para abrir no Gamma →';
+  el('gamma-result').style.display='flex';
+  window.open(gammaUrl,'_blank');
+  toast('Gamma aberto! Cole o texto na caixa de importação.','success');
 }
 function registrarEnvio(){
   const id=el('inf-cliente').value;const c=clientes[id];
