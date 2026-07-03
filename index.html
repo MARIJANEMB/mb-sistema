@@ -359,7 +359,7 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
                 <button class="btn btn-outline btn-sm" onclick="exportarGamma()">🚀 Exportar Gamma</button>
                 <button class="btn btn-primary btn-sm" onclick="registrarEnvio()">✓ Registrar envio</button>
               </div>
-              <div id="gamma-result" style="display:none" class="gamma-banner">
+              <div id="gamma-result" style="display:none;flex-direction:column;gap:6px" class="gamma-banner">
                 <div style="font-size:28px">🚀</div>
                 <div class="gb-text">
                   <div class="gb-title">Informativo exportado para o Gamma!</div>
@@ -699,15 +699,23 @@ async function exportarGamma(){
   const c=clientes[el('inf-cliente').value];
   const mes=el('inf-mes').value;
   const mesFmt=mes?new Date(mes+'-02').toLocaleDateString('pt-BR',{month:'long',year:'numeric'}):'';
-  // Monta o outline direto do texto — sem depender de JSON da IA
   const titulo='Informativo '+mesFmt+' — '+(c?.razao||'MB Contabilidade');
-  const outline=`# ${titulo}\n\n${informativoTexto}`;
-  const gammaUrl='https://gamma.app/docs/new?text='+encodeURIComponent(outline);
-  el('gamma-link').href=gammaUrl;
-  el('gamma-link').textContent='Clique aqui para abrir no Gamma →';
-  el('gamma-result').style.display='flex';
-  window.open(gammaUrl,'_blank');
-  toast('Gamma aberto! Cole o texto na caixa de importação.','success');
+  const textoFormatado=`${titulo}\n\n${informativoTexto}`;
+  try{
+    await navigator.clipboard.writeText(textoFormatado);
+    el('gamma-result').style.display='flex';
+    el('gamma-link').href='https://gamma.app/docs/new';
+    el('gamma-link').textContent='Clique aqui para abrir o Gamma e colar (Ctrl+V) →';
+    window.open('https://gamma.app/docs/new','_blank');
+    toast('✅ Texto copiado! No Gamma clique em "Importar" e cole com Ctrl+V','success');
+  }catch(e){
+    // fallback: mostra texto para copiar manualmente
+    el('gamma-result').style.display='flex';
+    el('gamma-link').href='https://gamma.app/docs/new';
+    el('gamma-link').textContent='Abrir Gamma — depois cole o texto copiado';
+    window.open('https://gamma.app/docs/new','_blank');
+    toast('Abra o Gamma e cole o texto do informativo.','');
+  }
 }
 function registrarEnvio(){
   const id=el('inf-cliente').value;const c=clientes[id];
