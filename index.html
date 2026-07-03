@@ -18,28 +18,19 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;color:var(--g800);background:var(--g50);min-height:100vh}
-
-/* SETUP */
 #setup-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--navy);padding:2rem}
 .setup-card{background:white;border-radius:var(--rlg);padding:2.5rem;width:100%;max-width:540px}
 .setup-logo{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
 .setup-logo-icon{width:48px;height:48px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
 .setup-logo-text .t1{font-size:17px;font-weight:600;color:var(--navy)}
 .setup-logo-text .t2{font-size:12px;color:var(--g500)}
-.setup-step{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--g100)}
-.setup-step:last-child{border-bottom:none}
-.step-num{width:24px;height:24px;border-radius:50%;background:var(--navy);color:white;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.step-title{font-weight:500;font-size:13px;color:var(--g800)}
-.step-desc{font-size:12px;color:var(--g500);margin-top:2px;line-height:1.5}
 .sf label{display:block;font-size:12px;font-weight:500;color:var(--g600);margin-bottom:4px;margin-top:14px}
-.sf input{width:100%;padding:9px 12px;border:1px solid var(--g300);border-radius:var(--r);font-size:13px;color:var(--g800);transition:border-color .15s;font-family:inherit}
+.sf input{width:100%;padding:9px 12px;border:1px solid var(--g300);border-radius:var(--r);font-size:13px;color:var(--g800);font-family:inherit}
 .sf input:focus{outline:none;border-color:var(--navy)}
 .btn-setup{width:100%;padding:11px;background:var(--navy);color:white;border:none;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;margin-top:1.5rem;font-family:inherit}
 .btn-setup:hover{background:var(--navy-light)}
 .info-panel{background:var(--info-bg);border:1px solid #bfdbfe;border-radius:var(--r);padding:.875rem 1rem;font-size:12px;color:var(--info);line-height:1.6;margin-bottom:1rem}
 .warn-panel{background:var(--warn-bg);border:1px solid #fde68a;border-radius:var(--r);padding:.875rem 1rem;font-size:12px;color:var(--warn);line-height:1.6;margin-top:.75rem}
-
-/* LAYOUT */
 #app{display:none}
 .layout{display:flex;min-height:100vh}
 .sidebar{width:220px;flex-shrink:0;background:var(--navy);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100}
@@ -58,9 +49,6 @@ body{font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;color:var(--g800
 .u-name{font-size:12px;color:white;font-weight:500}
 .u-role{font-size:10px;color:rgba(255,255,255,.4)}
 .btn-logout{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:16px;padding:2px}
-.btn-logout:hover{color:rgba(255,255,255,.8)}
-
-/* MAIN */
 .main{margin-left:220px;flex:1}
 .topbar{background:white;border-bottom:1px solid var(--g200);padding:.875rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
 .topbar-title{font-size:15px;font-weight:600;color:var(--navy)}
@@ -69,39 +57,34 @@ body{font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;color:var(--g800
 .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .content{padding:1.5rem}
-
 .screen{display:none}.screen.active{display:block}
-
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:1.5rem}
 .stat-card{background:white;border:1px solid var(--g200);border-radius:var(--rlg);padding:1rem 1.25rem}
 .stat-label{font-size:11px;color:var(--g500);font-weight:500;text-transform:uppercase;letter-spacing:.4px}
-.stat-val{font-size:28px;font-weight:600;margin-top:4px;color:var(--navy)}
+.stat-val{font-size:26px;font-weight:600;margin-top:4px;color:var(--navy)}
 .stat-val.warn{color:var(--warn)}.stat-val.ok{color:var(--ok)}.stat-val.purple{color:var(--purple)}
-
 .card{background:white;border:1px solid var(--g200);border-radius:var(--rlg);overflow:hidden}
 .card-header{padding:.875rem 1.25rem;border-bottom:1px solid var(--g100);display:flex;align-items:center;justify-content:space-between}
 .card-title{font-size:13px;font-weight:600;color:var(--navy)}
 .card-body{padding:1.25rem}
-
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .form-group{display:flex;flex-direction:column;gap:4px}
 .form-group.full{grid-column:1/-1}
 .form-label{font-size:11px;font-weight:600;color:var(--g600);text-transform:uppercase;letter-spacing:.3px}
-.form-control{padding:8px 10px;border:1px solid var(--g300);border-radius:var(--r);font-size:13px;color:var(--g800);background:white;transition:border-color .15s;font-family:inherit}
+.form-control{padding:8px 10px;border:1px solid var(--g300);border-radius:var(--r);font-size:13px;color:var(--g800);background:white;font-family:inherit;transition:border-color .15s}
 .form-control:focus{outline:none;border-color:var(--navy)}
 textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
-
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;font-family:inherit;white-space:nowrap}
 .btn-primary{background:var(--navy);color:white;border-color:var(--navy)}
 .btn-primary:hover{background:var(--navy-light)}
 .btn-gold{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:600}
 .btn-gold:hover{background:var(--gold-light)}
 .btn-outline{background:white;color:var(--g700);border-color:var(--g300)}
-.btn-outline:hover{background:var(--g50);border-color:var(--g400)}
+.btn-outline:hover{background:var(--g50)}
+.btn-success{background:var(--ok);color:white;border-color:var(--ok)}
 .btn-sm{padding:5px 10px;font-size:12px}
-.btn-icon{padding:5px;border-radius:var(--r);background:none;border:1px solid var(--g200);cursor:pointer;color:var(--g600);transition:all .15s;font-size:14px;line-height:1;font-family:inherit}
+.btn-icon{padding:5px;border-radius:var(--r);background:none;border:1px solid var(--g200);cursor:pointer;color:var(--g600);font-size:14px;line-height:1;font-family:inherit}
 .btn-icon:hover{background:var(--g100)}
-
 .row-item{display:flex;align-items:center;gap:12px;padding:.875rem 1.25rem;border-bottom:1px solid var(--g100);transition:background .12s}
 .row-item:last-child{border-bottom:none}
 .row-item:hover{background:var(--g50)}
@@ -110,7 +93,6 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
 .row-nome{font-size:13px;font-weight:500;color:var(--g800)}
 .row-sub{font-size:11px;color:var(--g500);margin-top:2px}
 .row-actions{display:flex;gap:6px;align-items:center;flex-shrink:0}
-
 .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
 .badge-ok{background:var(--ok-bg);color:var(--ok)}
 .badge-warn{background:var(--warn-bg);color:var(--warn)}
@@ -118,21 +100,29 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
 .badge-info{background:var(--info-bg);color:var(--info)}
 .badge-purple{background:var(--purple-bg);color:var(--purple)}
 .badge-gray{background:var(--g100);color:var(--g600)}
-
 .search-wrap{position:relative}
 .search-wrap input{padding-left:32px}
-.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--g400);font-size:15px}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--g400)}
 
-.pend-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--g100)}
+/* PENDENCIAS COM LINK */
+.pend-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--g100)}
 .pend-item:last-child{border-bottom:none}
-.pend-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--navy);flex-shrink:0;cursor:pointer}
-.pend-item label{font-size:13px;flex:1;cursor:pointer}
-.pend-item label.done{text-decoration:line-through;color:var(--g400)}
-.pend-remove{background:none;border:none;color:var(--g400);cursor:pointer;font-size:14px;padding:2px;font-family:inherit}
+.pend-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--navy);flex-shrink:0;cursor:pointer;margin-top:2px}
+.pend-item-body{flex:1;min-width:0}
+.pend-item-txt{font-size:13px;cursor:pointer}
+.pend-item-txt.done{text-decoration:line-through;color:var(--g400)}
+.pend-item-link{display:flex;align-items:center;gap:6px;margin-top:4px}
+.pend-item-link a{font-size:11px;color:var(--info);text-decoration:none;display:flex;align-items:center;gap:4px}
+.pend-item-link a:hover{text-decoration:underline}
+.pend-add-link{font-size:11px;color:var(--g500);cursor:pointer;margin-top:3px;display:inline-flex;align-items:center;gap:3px}
+.pend-add-link:hover{color:var(--info)}
+.pend-link-input{margin-top:5px;display:none}
+.pend-remove{background:none;border:none;color:var(--g400);cursor:pointer;font-size:13px;padding:2px;flex-shrink:0;margin-top:1px;font-family:inherit}
 .pend-remove:hover{color:var(--danger)}
 .add-row{display:flex;gap:8px;margin-top:8px}
 .add-row .form-control{flex:1}
 
+/* PREVIEW */
 .preview-wrap{background:white;border:1px solid var(--g200);border-radius:var(--rlg);overflow:hidden}
 .preview-header-block{background:var(--navy);padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:flex-end}
 .preview-nome{font-size:16px;font-weight:600;color:var(--gold)}
@@ -142,9 +132,23 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
 .preview-body pre{font-family:inherit;font-size:13px;line-height:1.8;white-space:pre-wrap;color:var(--g700)}
 .preview-placeholder{text-align:center;padding:3rem 1rem;color:var(--g400)}
 .preview-placeholder .ph-icon{font-size:40px;display:block;margin-bottom:.75rem}
+.export-bar{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 
+/* RELATÓRIOS */
+.relat-tipo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.relat-tipo-card{background:white;border:1px solid var(--g200);border-radius:var(--rlg);padding:1rem;cursor:pointer;transition:all .15s;text-align:center}
+.relat-tipo-card:hover{border-color:var(--navy);background:var(--info-bg)}
+.relat-tipo-card .rt-icon{font-size:28px;display:block;margin-bottom:8px}
+.relat-tipo-card .rt-title{font-size:13px;font-weight:500;color:var(--navy)}
+.relat-tipo-card .rt-desc{font-size:11px;color:var(--g500);margin-top:4px;line-height:1.4}
+.relat-arquivo-card{background:white;border:1px solid var(--g200);border-radius:var(--rlg);padding:1rem 1.25rem;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.relat-arquivo-icon{width:36px;height:36px;border-radius:var(--r);background:var(--info-bg);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.relat-arquivo-meta{flex:1}
+.relat-arquivo-nome{font-size:13px;font-weight:500}
+.relat-arquivo-sub{font-size:11px;color:var(--g500);margin-top:2px}
+
+/* REGISTROS */
 .reg-card{background:white;border:1px solid var(--g200);border-radius:var(--rlg);padding:1rem 1.25rem;margin-bottom:10px}
-.reg-card:hover{border-color:var(--g400)}
 .reg-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
 .reg-icon{width:32px;height:32px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
 .reg-meta{flex:1}
@@ -152,43 +156,33 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
 .reg-info{font-size:11px;color:var(--g500);margin-top:2px}
 .reg-texto{font-size:13px;color:var(--g700);line-height:1.6;padding:8px 10px;background:var(--g50);border-radius:var(--r)}
 .reg-footer{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
-
 .hist-item{display:flex;align-items:center;gap:12px;padding:.75rem 1.25rem;border-bottom:1px solid var(--g100)}
 .hist-item:last-child{border-bottom:none}
-.hist-icon{width:32px;height:32px;border-radius:var(--r);background:var(--ok-bg);color:var(--ok);display:flex;align-items:center;justify-content:center;font-size:14px}
+.hist-icon{width:32px;height:32px;border-radius:var(--r);background:var(--ok-bg);display:flex;align-items:center;justify-content:center;font-size:14px}
+
+/* MODAL */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:500;padding:1rem}
+.modal-backdrop.open{display:flex}
+.modal{background:white;border-radius:var(--rlg);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-size:15px;font-weight:600;color:var(--navy)}
+.modal-body{padding:1.5rem;display:flex;flex-direction:column;gap:12px}
+.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--g200);display:flex;justify-content:flex-end;gap:8px}
 
 .loading-overlay{position:fixed;inset:0;background:rgba(27,42,74,.85);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:999;color:white}
 .loading-spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:1rem}
 @keyframes spin{to{transform:rotate(360deg)}}
 .toast-wrap{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:8px}
-.toast{background:var(--g900);color:white;padding:10px 16px;border-radius:var(--r);font-size:13px;display:flex;align-items:center;gap:8px;animation:slideIn .2s ease;max-width:320px}
+.toast{background:var(--g900);color:white;padding:10px 16px;border-radius:var(--r);font-size:13px;animation:slideIn .2s ease;max-width:320px}
 .toast.success{background:var(--ok)}.toast.error{background:#a53125}
 @keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
 .empty{text-align:center;padding:2.5rem 1rem;color:var(--g400)}
 .empty .e-icon{font-size:36px;display:block;margin-bottom:.75rem}
 .section-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--navy);display:flex;align-items:center;gap:8px;margin:1.25rem 0 .75rem}
 .section-title::after{content:'';flex:1;height:1px;background:var(--g200)}
-
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:500;padding:1rem}
-.modal-backdrop.open{display:flex}
-.modal{background:white;border-radius:var(--rlg);width:100%;max-width:540px;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.modal-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between}
-.modal-title{font-size:15px;font-weight:600;color:var(--navy)}
-.modal-body{padding:1.5rem;display:flex;flex-direction:column;gap:12px}
-.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--g200);display:flex;justify-content:flex-end;gap:8px}
-
-/* CHAVE API MODAL */
-.api-key-wrap{background:var(--warn-bg);border:1px solid #fde68a;border-radius:var(--r);padding:1rem;margin-bottom:1rem}
-.api-key-wrap p{font-size:12px;color:var(--warn);line-height:1.6;margin-bottom:8px}
-.api-key-wrap a{color:var(--info);text-decoration:underline}
-
-@media(max-width:900px){
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .form-grid{grid-template-columns:1fr}
-  .form-group.full{grid-column:1}
-  .sidebar{width:180px}
-  .main{margin-left:180px}
-}
+.gamma-banner{background:linear-gradient(135deg,#6d28d9,#4f46e5);border-radius:var(--rlg);padding:1rem 1.25rem;display:flex;align-items:center;gap:12px;margin-top:10px}
+.gamma-banner .gb-text .gb-title{font-size:13px;font-weight:600;color:white}
+.gamma-banner .gb-text .gb-sub{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px}
 </style>
 </head>
 <body>
@@ -198,17 +192,9 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
   <div class="setup-card">
     <div class="setup-logo">
       <div class="setup-logo-icon">📊</div>
-      <div class="setup-logo-text">
-        <div class="t1">MB Contabilidade Estratégica</div>
-        <div class="t2">Sistema de informativos mensais</div>
-      </div>
+      <div class="setup-logo-text"><div class="t1">MB Contabilidade Estratégica</div><div class="t2">Sistema de informativos mensais</div></div>
     </div>
-    <div class="info-panel">⚙️ <strong>Configuração inicial</strong><br>Preencha os dados abaixo para conectar o sistema ao banco de dados compartilhado.</div>
-    <div style="margin-bottom:1rem">
-      <div class="setup-step"><div class="step-num">1</div><div><div class="step-title">Firebase — URL do banco</div><div class="step-desc">console.firebase.google.com → Realtime Database → copie a URL no topo.</div></div></div>
-      <div class="setup-step"><div class="step-num">2</div><div><div class="step-title">Firebase — API Key e Project ID</div><div class="step-desc">Configurações do projeto → Geral → Seus apps → &lt;/&gt; → copie apiKey e projectId.</div></div></div>
-      <div class="setup-step"><div class="step-num">3</div><div><div class="step-title">Chave da Anthropic (IA)</div><div class="step-desc">console.anthropic.com → API Keys → criar nova chave → cole abaixo.</div></div></div>
-    </div>
+    <div class="info-panel">⚙️ <strong>Configuração inicial</strong> — Preencha os dados para conectar ao banco compartilhado e à IA.</div>
     <div class="sf">
       <label>URL do Realtime Database *</label>
       <input type="text" id="fb-url" placeholder="https://mb-informativos-xxxxx-default-rtdb.firebaseio.com">
@@ -216,13 +202,13 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
       <input type="text" id="fb-key" placeholder="AIzaSy...">
       <label>Project ID Firebase *</label>
       <input type="text" id="fb-project" placeholder="mb-informativos">
-      <label>Chave Anthropic (para geração com IA) *</label>
-      <input type="text" id="anthropic-key" placeholder="sk-ant-...">
+      <label>Chave Anthropic (IA) *</label>
+      <input type="password" id="anthropic-key" placeholder="sk-ant-...">
       <label>Seu nome</label>
       <input type="text" id="fb-usuario" placeholder="Ex: Marijane">
     </div>
     <button class="btn-setup" onclick="iniciarApp()">✓ Conectar e entrar</button>
-    <div class="warn-panel">⚠️ A chave Anthropic fica salva apenas no seu navegador (localStorage) e nunca é enviada para nenhum servidor externo além da API oficial da Anthropic.</div>
+    <div class="warn-panel">🔒 A chave Anthropic é salva apenas no seu navegador e nunca compartilhada.</div>
   </div>
 </div>
 
@@ -240,6 +226,7 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
         <button class="nav-item" onclick="goTo('clientes')"><span class="icon">👥</span> Clientes</button>
         <button class="nav-item" onclick="goTo('cadastro')"><span class="icon">➕</span> Novo cliente</button>
         <button class="nav-item" onclick="goTo('informativo')"><span class="icon">📄</span> Gerar informativo</button>
+        <button class="nav-item" onclick="goTo('relatorios')"><span class="icon">📊</span> Relatórios</button>
         <button class="nav-item" onclick="goTo('registros')"><span class="icon">📝</span> Registros</button>
         <button class="nav-item" onclick="goTo('historico')"><span class="icon">📋</span> Hist. informativos</button>
       </nav>
@@ -252,32 +239,23 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
 
     <div class="main">
       <div class="topbar">
-        <div>
-          <div class="topbar-title" id="topbar-title">Painel</div>
-          <div class="topbar-sub" id="topbar-sub">Visão geral</div>
-        </div>
+        <div><div class="topbar-title" id="topbar-title">Painel</div><div class="topbar-sub" id="topbar-sub">Visão geral</div></div>
         <div class="sync-badge"><div class="sync-dot"></div>Sincronizado em tempo real</div>
       </div>
-
       <div class="content">
 
         <!-- DASHBOARD -->
         <div class="screen active" id="screen-dashboard">
           <div class="stats-grid">
-            <div class="stat-card"><div class="stat-label">Total de clientes</div><div class="stat-val" id="s-total">—</div></div>
+            <div class="stat-card"><div class="stat-label">Clientes</div><div class="stat-val" id="s-total">—</div></div>
             <div class="stat-card"><div class="stat-label">Com pendências</div><div class="stat-val warn" id="s-pend">—</div></div>
-            <div class="stat-card"><div class="stat-label">Informativos enviados</div><div class="stat-val ok" id="s-env">—</div></div>
+            <div class="stat-card"><div class="stat-label">Informativos</div><div class="stat-val ok" id="s-env">—</div></div>
             <div class="stat-card"><div class="stat-label">Registros abertos</div><div class="stat-val purple" id="s-reg">—</div></div>
+            <div class="stat-card"><div class="stat-label">Relatórios</div><div class="stat-val" style="color:var(--info)" id="s-relat">—</div></div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-            <div class="card">
-              <div class="card-header"><div class="card-title">Clientes recentes</div><button class="btn btn-outline btn-sm" onclick="goTo('clientes')">Ver todos</button></div>
-              <div id="dash-clientes"></div>
-            </div>
-            <div class="card">
-              <div class="card-header"><div class="card-title">Registros recentes</div><button class="btn btn-outline btn-sm" onclick="goTo('registros')">Ver todos</button></div>
-              <div id="dash-registros"></div>
-            </div>
+            <div class="card"><div class="card-header"><div class="card-title">Clientes recentes</div><button class="btn btn-outline btn-sm" onclick="goTo('clientes')">Ver todos</button></div><div id="dash-clientes"></div></div>
+            <div class="card"><div class="card-header"><div class="card-title">Registros recentes</div><button class="btn btn-outline btn-sm" onclick="goTo('registros')">Ver todos</button></div><div id="dash-registros"></div></div>
           </div>
         </div>
 
@@ -298,15 +276,13 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
               <div class="card-body">
                 <div class="form-grid">
                   <div class="form-group"><label class="form-label">Razão social *</label><input class="form-control" type="text" id="c-razao" placeholder="Nome empresarial"></div>
-                  <div class="form-group"><label class="form-label">Nome fantasia</label><input class="form-control" type="text" id="c-fantasia" placeholder="Como é conhecido"></div>
+                  <div class="form-group"><label class="form-label">Nome fantasia</label><input class="form-control" type="text" id="c-fantasia"></div>
                   <div class="form-group"><label class="form-label">CNPJ</label><input class="form-control" type="text" id="c-cnpj" placeholder="00.000.000/0001-00" maxlength="18" oninput="maskCNPJ(this)"></div>
-                  <div class="form-group"><label class="form-label">Regime tributário</label>
-                    <select class="form-control" id="c-regime"><option value="">Selecione...</option><option>Simples Nacional</option><option>Lucro Presumido</option><option>Lucro Real</option><option>MEI</option></select></div>
-                  <div class="form-group"><label class="form-label">Setor</label>
-                    <select class="form-control" id="c-setor"><option value="">Selecione...</option><option>Comércio</option><option>Serviços</option><option>Indústria</option><option>Saúde</option><option>Educação</option><option>Construção</option><option>Agronegócio</option><option>Tecnologia</option><option>Outro</option></select></div>
+                  <div class="form-group"><label class="form-label">Regime tributário</label><select class="form-control" id="c-regime"><option value="">Selecione...</option><option>Simples Nacional</option><option>Lucro Presumido</option><option>Lucro Real</option><option>MEI</option></select></div>
+                  <div class="form-group"><label class="form-label">Setor</label><select class="form-control" id="c-setor"><option value="">Selecione...</option><option>Comércio</option><option>Serviços</option><option>Indústria</option><option>Saúde</option><option>Educação</option><option>Construção</option><option>Agronegócio</option><option>Tecnologia</option><option>Outro</option></select></div>
                   <div class="form-group"><label class="form-label">CNAE principal</label><input class="form-control" type="text" id="c-cnae" placeholder="Ex: 4712-1/00"></div>
-                  <div class="form-group"><label class="form-label">Responsável / Sócio</label><input class="form-control" type="text" id="c-resp" placeholder="Nome completo"></div>
-                  <div class="form-group"><label class="form-label">E-mail de contato</label><input class="form-control" type="text" id="c-email" placeholder="email@empresa.com.br"></div>
+                  <div class="form-group"><label class="form-label">Responsável / Sócio</label><input class="form-control" type="text" id="c-resp"></div>
+                  <div class="form-group"><label class="form-label">E-mail de contato</label><input class="form-control" type="text" id="c-email"></div>
                   <div class="form-group"><label class="form-label">Funcionários CLT</label><input class="form-control" type="number" id="c-func" placeholder="0" min="0"></div>
                   <div class="form-group"><label class="form-label">Pró-labore</label><input class="form-control" type="number" id="c-prolabore" placeholder="0" min="0"></div>
                   <div class="form-group full"><label class="form-label">Observações internas</label><textarea class="form-control" id="c-obs" placeholder="Informações relevantes..."></textarea></div>
@@ -334,44 +310,117 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
               </div>
               <div class="card" style="margin-top:12px">
                 <div class="card-header"><div class="card-title">📌 Orientações tributárias</div></div>
-                <div class="card-body"><textarea class="form-control" id="inf-trib" placeholder="Ex: DAS vence dia 20, DCTF mensal pendente..." style="min-height:90px"></textarea></div>
+                <div class="card-body"><textarea class="form-control" id="inf-trib" placeholder="Ex: DAS vence dia 20, DCTF pendente..." style="min-height:90px"></textarea></div>
               </div>
               <div class="card" style="margin-top:12px">
                 <div class="card-header"><div class="card-title">👥 Folha de pagamento</div></div>
-                <div class="card-body"><textarea class="form-control" id="inf-folha" placeholder="Ex: Folha processada. 3 CLTs. Total líquido R$ 9.400..." style="min-height:80px"></textarea></div>
+                <div class="card-body"><textarea class="form-control" id="inf-folha" placeholder="Ex: Folha processada. 3 CLTs. Total R$ 9.400..." style="min-height:80px"></textarea></div>
               </div>
               <div class="card" style="margin-top:12px">
                 <div class="card-header"><div class="card-title">📁 Pendências — documentos</div></div>
                 <div class="card-body">
                   <div id="pend-docs-lista"></div>
-                  <div class="add-row"><input class="form-control" type="text" id="pend-doc-input" placeholder="Adicionar pendência..." style="font-size:13px" onkeydown="if(event.key==='Enter')addItem('doc')"><button class="btn btn-outline btn-sm" onclick="addItem('doc')">+ Add</button></div>
+                  <div class="add-row">
+                    <input class="form-control" type="text" id="pend-doc-input" placeholder="Adicionar pendência..." style="font-size:13px" onkeydown="if(event.key==='Enter')addItem('doc')">
+                    <button class="btn btn-outline btn-sm" onclick="addItem('doc')">+ Add</button>
+                  </div>
                 </div>
               </div>
               <div class="card" style="margin-top:12px">
                 <div class="card-header"><div class="card-title">⚠️ Pendências tributárias</div></div>
                 <div class="card-body">
                   <div id="pend-trib-lista"></div>
-                  <div class="add-row"><input class="form-control" type="text" id="pend-trib-input" placeholder="Adicionar pendência..." style="font-size:13px" onkeydown="if(event.key==='Enter')addItem('trib')"><button class="btn btn-outline btn-sm" onclick="addItem('trib')">+ Add</button></div>
+                  <div class="add-row">
+                    <input class="form-control" type="text" id="pend-trib-input" placeholder="Adicionar pendência..." style="font-size:13px" onkeydown="if(event.key==='Enter')addItem('trib')">
+                    <button class="btn btn-outline btn-sm" onclick="addItem('trib')">+ Add</button>
+                  </div>
                 </div>
               </div>
               <div class="card" style="margin-top:12px">
                 <div class="card-header"><div class="card-title">✅ Plano de ação</div></div>
                 <div class="card-body">
                   <div id="plano-lista"></div>
-                  <div class="add-row"><input class="form-control" type="text" id="plano-input" placeholder="Adicionar ação..." style="font-size:13px" onkeydown="if(event.key==='Enter')addItem('plano')"><button class="btn btn-outline btn-sm" onclick="addItem('plano')">+ Add</button></div>
+                  <div class="add-row">
+                    <input class="form-control" type="text" id="plano-input" placeholder="Adicionar ação..." style="font-size:13px" onkeydown="if(event.key==='Enter')addItem('plano')">
+                    <button class="btn btn-outline btn-sm" onclick="addItem('plano')">+ Add</button>
+                  </div>
                 </div>
               </div>
               <button class="btn btn-gold" style="width:100%;margin-top:1rem;justify-content:center;padding:11px" onclick="gerarInformativo()">✨ Gerar informativo com IA</button>
             </div>
             <div>
-              <div class="card-title" style="margin-bottom:.75rem">Pré-visualização</div>
+              <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:.75rem">Pré-visualização</div>
               <div class="preview-wrap" id="preview-wrap">
                 <div class="preview-placeholder"><span class="ph-icon">📄</span><p>Preencha as informações e clique em<br><strong>Gerar informativo com IA</strong></p></div>
               </div>
-              <div id="preview-actions" style="display:none;margin-top:10px;gap:8px;flex-wrap:wrap">
+              <div class="export-bar" id="export-bar" style="display:none">
                 <button class="btn btn-outline btn-sm" onclick="copiarTexto()">📋 Copiar texto</button>
+                <button class="btn btn-outline btn-sm" onclick="baixarTxt()">⬇️ Baixar .txt</button>
+                <button class="btn btn-outline btn-sm" onclick="exportarGamma()">🚀 Exportar Gamma</button>
                 <button class="btn btn-primary btn-sm" onclick="registrarEnvio()">✓ Registrar envio</button>
               </div>
+              <div id="gamma-result" style="display:none" class="gamma-banner">
+                <div style="font-size:28px">🚀</div>
+                <div class="gb-text">
+                  <div class="gb-title">Informativo exportado para o Gamma!</div>
+                  <div class="gb-sub"><a id="gamma-link" href="#" target="_blank" style="color:rgba(255,255,255,.9)">Clique aqui para abrir no Gamma →</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RELATÓRIOS -->
+        <div class="screen" id="screen-relatorios">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
+            <div>
+              <div class="section-title">Gerar relatório com IA</div>
+              <div class="card" style="margin-bottom:12px">
+                <div class="card-body">
+                  <div class="form-group"><label class="form-label">Cliente</label><select class="form-control" id="rel-cliente"><option value="">Selecione...</option></select></div>
+                  <div class="form-group" style="margin-top:10px"><label class="form-label">Tipo de relatório</label>
+                    <select class="form-control" id="rel-tipo">
+                      <option value="">Selecione...</option>
+                      <option value="tributario">📊 Análise tributária completa</option>
+                      <option value="fator_r">📐 Simulação Fator R — Simples Nacional</option>
+                      <option value="folha">👥 Análise de folha de pagamento</option>
+                      <option value="dre">📈 DRE simplificado</option>
+                      <option value="planejamento">🎯 Planejamento tributário anual</option>
+                      <option value="personalizado">✏️ Relatório personalizado</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="margin-top:10px"><label class="form-label">Informações adicionais</label><textarea class="form-control" id="rel-info" placeholder="Dados, valores, contexto para o relatório..." style="min-height:100px"></textarea></div>
+                  <button class="btn btn-gold" style="width:100%;margin-top:12px;justify-content:center" onclick="gerarRelatorio()">✨ Gerar relatório com IA</button>
+                </div>
+              </div>
+              <div class="section-title">Arquivos do Google Drive</div>
+              <div class="card">
+                <div class="card-body">
+                  <div class="form-group"><label class="form-label">Cliente</label><select class="form-control" id="arq-cliente"><option value="">Selecione...</option></select></div>
+                  <div class="form-group" style="margin-top:10px"><label class="form-label">Nome do arquivo</label><input class="form-control" type="text" id="arq-nome" placeholder="Ex: Balancete março 2026"></div>
+                  <div class="form-group" style="margin-top:10px"><label class="form-label">Link do Google Drive</label><input class="form-control" type="text" id="arq-link" placeholder="https://drive.google.com/..."></div>
+                  <div class="form-group" style="margin-top:10px"><label class="form-label">Tipo</label>
+                    <select class="form-control" id="arq-tipo">
+                      <option value="">Selecione...</option>
+                      <option>Balancete</option><option>DRE</option><option>Folha de pagamento</option>
+                      <option>Declaração</option><option>Contrato</option><option>Relatório</option><option>Outro</option>
+                    </select>
+                  </div>
+                  <button class="btn btn-primary" style="margin-top:12px" onclick="salvarArquivo()">💾 Salvar referência</button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="section-title">Resultado do relatório</div>
+              <div class="preview-wrap" id="rel-preview">
+                <div class="preview-placeholder"><span class="ph-icon">📊</span><p>Selecione o cliente e tipo de relatório e clique em <strong>Gerar com IA</strong></p></div>
+              </div>
+              <div id="rel-export-bar" style="display:none;margin-top:10px;gap:8px" class="export-bar">
+                <button class="btn btn-outline btn-sm" onclick="copiarRelatorio()">📋 Copiar</button>
+                <button class="btn btn-outline btn-sm" onclick="baixarRelatorio()">⬇️ Baixar .txt</button>
+              </div>
+              <div class="section-title" style="margin-top:1.5rem">Arquivos salvos</div>
+              <div id="lista-arquivos"></div>
             </div>
           </div>
         </div>
@@ -380,22 +429,19 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
         <div class="screen" id="screen-registros">
           <div style="display:flex;gap:10px;margin-bottom:1rem;align-items:center;flex-wrap:wrap">
             <div style="display:flex;gap:6px;flex:1;flex-wrap:wrap">
-              <button class="btn btn-outline btn-sm" id="rfbtn-todos" onclick="filtroReg='todos';renderRegistros()">Todos</button>
-              <button class="btn btn-outline btn-sm" id="rfbtn-historico" onclick="filtroReg='historico';renderRegistros()">📘 Histórico</button>
-              <button class="btn btn-outline btn-sm" id="rfbtn-solicitacao" onclick="filtroReg='solicitacao';renderRegistros()">📋 Solicitação</button>
-              <button class="btn btn-outline btn-sm" id="rfbtn-ocorrencia" onclick="filtroReg='ocorrencia';renderRegistros()">🚨 Ocorrência</button>
+              <button class="btn btn-sm btn-outline" id="rfbtn-todos" onclick="filtroReg='todos';renderRegistros()">Todos</button>
+              <button class="btn btn-sm btn-outline" id="rfbtn-historico" onclick="filtroReg='historico';renderRegistros()">📘 Histórico</button>
+              <button class="btn btn-sm btn-outline" id="rfbtn-solicitacao" onclick="filtroReg='solicitacao';renderRegistros()">📋 Solicitação</button>
+              <button class="btn btn-sm btn-outline" id="rfbtn-ocorrencia" onclick="filtroReg='ocorrencia';renderRegistros()">🚨 Ocorrência</button>
             </div>
             <button class="btn btn-primary" onclick="abrirModalRegistro()">+ Novo registro</button>
           </div>
           <div id="lista-registros"></div>
         </div>
 
-        <!-- HISTORICO -->
+        <!-- HISTÓRICO -->
         <div class="screen" id="screen-historico">
-          <div class="card">
-            <div class="card-header"><div class="card-title">Histórico de informativos enviados</div></div>
-            <div id="historico-lista"></div>
-          </div>
+          <div class="card"><div class="card-header"><div class="card-title">Histórico de informativos enviados</div></div><div id="historico-lista"></div></div>
         </div>
 
       </div>
@@ -406,9 +452,9 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
 <!-- MODAL REGISTRO -->
 <div class="modal-backdrop" id="modal-registro">
   <div class="modal">
-    <div class="modal-header"><div class="modal-title" id="modal-reg-titulo">Novo registro</div><button class="btn-icon" onclick="fecharModal()">✕</button></div>
+    <div class="modal-header"><div class="modal-title" id="modal-reg-titulo">Novo registro</div><button class="btn-icon" onclick="fecharModal('modal-registro')">✕</button></div>
     <div class="modal-body">
-      <div class="form-group"><label class="form-label">Cliente *</label><select class="form-control" id="reg-cliente"><option value="">Selecione...</option></select></div>
+      <div class="form-group"><label class="form-label">Cliente *</label><select class="form-control" id="reg-cliente"></select></div>
       <div class="form-group"><label class="form-label">Tipo *</label>
         <select class="form-control" id="reg-tipo">
           <option value="">Selecione...</option>
@@ -423,25 +469,30 @@ textarea.form-control{resize:vertical;min-height:80px;line-height:1.6}
         <select class="form-control" id="reg-status"><option value="aberto">Aberto</option><option value="em_andamento">Em andamento</option><option value="resolvido">Resolvido</option></select>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="fecharModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="salvarRegistro()">💾 Salvar</button>
-    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="fecharModal('modal-registro')">Cancelar</button><button class="btn btn-primary" onclick="salvarRegistro()">💾 Salvar</button></div>
   </div>
 </div>
 
-<div class="loading-overlay" id="loading" style="display:none">
-  <div class="loading-spinner"></div>
-  <div id="loading-msg" style="font-size:14px">Carregando...</div>
+<!-- MODAL LINK PENDÊNCIA -->
+<div class="modal-backdrop" id="modal-link">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-header"><div class="modal-title">Adicionar link do Drive</div><button class="btn-icon" onclick="fecharModal('modal-link')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Link do Google Drive</label><input class="form-control" type="text" id="link-url" placeholder="https://drive.google.com/..."></div>
+      <div class="form-group"><label class="form-label">Nome do arquivo (opcional)</label><input class="form-control" type="text" id="link-nome" placeholder="Ex: NF de março.pdf"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-outline" onclick="fecharModal('modal-link')">Cancelar</button><button class="btn btn-primary" onclick="confirmarLink()">✓ Adicionar link</button></div>
+  </div>
 </div>
+
+<div class="loading-overlay" id="loading" style="display:none"><div class="loading-spinner"></div><div id="loading-msg" style="font-size:14px">Carregando...</div></div>
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
-let db=null,clientes={},historico={},registros={};
-let pendDocs=[],pendTribs=[],planoAcoes=[],informativoTexto='',currentUser='';
-let filtroReg='todos',editandoRegId=null;
+let db=null,clientes={},historico={},registros={},arquivos={};
+let pendDocs=[],pendTribs=[],planoAcoes=[],informativoTexto='',relatorioTexto='',currentUser='';
+let filtroReg='todos',editandoRegId=null,linkPendTipo=null,linkPendIdx=null;
 
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
 const el=id=>document.getElementById(id);
 const v=id=>(el(id)?.value||'').trim();
 const ls=(k,val)=>localStorage.setItem(k,val);
@@ -452,113 +503,99 @@ function showLoading(msg){el('loading').style.display='flex';el('loading-msg').t
 function hideLoading(){el('loading').style.display='none'}
 function toast(msg,type=''){const w=el('toast-wrap'),t=document.createElement('div');t.className='toast '+(type||'');t.textContent=msg;w.appendChild(t);setTimeout(()=>t.remove(),3500)}
 function maskCNPJ(e){let v=e.value.replace(/\D/g,'').slice(0,14);v=v.replace(/^(\d{2})(\d)/,'$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1/$2').replace(/(\d{4})(\d)/,'$1-$2');e.value=v}
-function atualizarStats(){const ca=arr2obj(clientes),ra=arr2obj(registros);el('s-total').textContent=ca.length;el('s-pend').textContent=ca.filter(c=>(c.pendencias||0)>0).length;el('s-env').textContent=Object.keys(historico).length;el('s-reg').textContent=ra.filter(r=>r.status!=='resolvido').length}
-
-// ─── FIREBASE ─────────────────────────────────────────────────────────────────
-function iniciarApp(){
-  const url=v('fb-url'),key=v('fb-key'),proj=v('fb-project'),akey=v('anthropic-key'),usuario=v('fb-usuario')||'Usuário';
-  if(!url||!key||!proj||!akey){toast('Preencha todos os campos obrigatórios.','error');return;}
-  currentUser=usuario;
-  ls('mb_fb_url',url);ls('mb_fb_key',key);ls('mb_fb_proj',proj);ls('mb_akey',akey);ls('mb_usuario',usuario);
-  conectar(url,key,proj,usuario);
+function fecharModal(id){el(id).classList.remove('open')}
+function atualizarStats(){
+  const ca=arr2obj(clientes),ra=arr2obj(registros),ar=arr2obj(arquivos);
+  el('s-total').textContent=ca.length;
+  el('s-pend').textContent=ca.filter(c=>(c.pendencias||0)>0).length;
+  el('s-env').textContent=Object.keys(historico).length;
+  el('s-reg').textContent=ra.filter(r=>r.status!=='resolvido').length;
+  el('s-relat').textContent=ar.length;
 }
 
+// FIREBASE
+function iniciarApp(){
+  const url=v('fb-url'),key=v('fb-key'),proj=v('fb-project'),akey=v('anthropic-key'),usuario=v('fb-usuario')||'Usuário';
+  if(!url||!key||!proj||!akey){toast('Preencha todos os campos.','error');return;}
+  currentUser=usuario;ls('mb_fb_url',url);ls('mb_fb_key',key);ls('mb_fb_proj',proj);ls('mb_akey',akey);ls('mb_usuario',usuario);
+  conectar(url,key,proj,usuario);
+}
 function conectar(url,key,proj,usuario){
   showLoading('Conectando...');
   try{
     if(!firebase.apps.length){firebase.initializeApp({apiKey:key,databaseURL:url,projectId:proj});}
     db=firebase.database();
     db.ref('.info/connected').on('value',snap=>{
-      if(snap.val()===true){
-        hideLoading();
-        el('setup-screen').style.display='none';
-        el('app').style.display='block';
-        el('user-name').textContent=usuario;
-        el('user-avatar').textContent=usuario.slice(0,2).toUpperCase();
-        iniciarListeners();
-      }
+      if(snap.val()===true){hideLoading();el('setup-screen').style.display='none';el('app').style.display='block';el('user-name').textContent=usuario;el('user-avatar').textContent=usuario.slice(0,2).toUpperCase();iniciarListeners();}
     });
-  }catch(e){hideLoading();toast('Erro ao conectar: '+e.message,'error');}
+  }catch(e){hideLoading();toast('Erro: '+e.message,'error');}
 }
-
 function iniciarListeners(){
   db.ref('clientes').on('value',snap=>{clientes=snap.val()||{};renderDash();renderListaClientes();renderSelectClientes();atualizarStats();});
   db.ref('historico').on('value',snap=>{historico=snap.val()||{};renderHistorico();atualizarStats();});
   db.ref('registros').on('value',snap=>{registros=snap.val()||{};renderRegistros();renderDashRegistros();atualizarStats();});
+  db.ref('arquivos').on('value',snap=>{arquivos=snap.val()||{};renderArquivos();atualizarStats();});
 }
-
 window.addEventListener('load',()=>{
   const url=lg('mb_fb_url'),key=lg('mb_fb_key'),proj=lg('mb_fb_proj'),akey=lg('mb_akey'),usuario=lg('mb_usuario')||'Usuário';
-  if(url&&key&&proj&&akey){
-    el('fb-url').value=url;el('fb-key').value=key;el('fb-project').value=proj;
-    el('anthropic-key').value=akey;el('fb-usuario').value=usuario;
-    conectar(url,key,proj,usuario);
-  }
+  if(url&&key&&proj&&akey){el('fb-url').value=url;el('fb-key').value=key;el('fb-project').value=proj;el('anthropic-key').value=akey;el('fb-usuario').value=usuario;conectar(url,key,proj,usuario);}
 });
-
 function logout(){if(!confirm('Sair?'))return;localStorage.clear();location.reload();}
 
-// ─── NAVEGAÇÃO ────────────────────────────────────────────────────────────────
-const screenTitles={dashboard:['Painel','Visão geral'],clientes:['Clientes','Base de clientes'],cadastro:['Novo cliente','Cadastrar cliente'],informativo:['Gerar informativo','Informativo mensal com IA'],registros:['Registros','Histórico, solicitações e ocorrências'],historico:['Hist. informativos','Informativos enviados']};
-const screenOrder=['dashboard','clientes','cadastro','informativo','registros','historico'];
-
+// NAVEGAÇÃO
+const screenTitles={dashboard:['Painel','Visão geral'],clientes:['Clientes','Base de clientes'],cadastro:['Novo cliente','Cadastrar'],informativo:['Gerar informativo','Informativo mensal com IA'],relatorios:['Relatórios','Relatórios por IA e arquivos'],registros:['Registros','Histórico, solicitações e ocorrências'],historico:['Hist. informativos','Informativos enviados']};
+const screenOrder=['dashboard','clientes','cadastro','informativo','relatorios','registros','historico'];
 function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
   el('screen-'+id).classList.add('active');
   document.querySelectorAll('.nav-item')[screenOrder.indexOf(id)].classList.add('active');
-  const[title,sub]=screenTitles[id];
-  el('topbar-title').textContent=title;el('topbar-sub').textContent=sub;
+  const[title,sub]=screenTitles[id];el('topbar-title').textContent=title;el('topbar-sub').textContent=sub;
   if(id==='informativo')renderSelectClientes();
+  if(id==='relatorios'){renderSelectRelat();renderArquivos();}
   if(id==='registros'){renderSelectRegistro();renderRegistros();}
 }
 
-// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+// DASHBOARD
 function renderDash(){
-  const arr=arr2obj(clientes).slice(-5).reverse();
-  const wrap=el('dash-clientes');
-  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">👥</span><p>Nenhum cliente ainda.</p></div>';return;}
+  const arr=arr2obj(clientes).slice(-5).reverse();const wrap=el('dash-clientes');
+  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">👥</span><p>Nenhum cliente.</p></div>';return;}
   wrap.innerHTML=arr.map(c=>`<div class="row-item"><div class="avatar">${initials(c.razao)}</div><div class="row-meta"><div class="row-nome">${c.razao}</div><div class="row-sub">${c.regime||''}</div></div><div class="row-actions"><span class="badge ${(c.pendencias||0)>0?'badge-warn':'badge-ok'}">${(c.pendencias||0)>0?c.pendencias+' pend.':'Em dia'}</span><button class="btn btn-outline btn-sm" onclick="irParaInformativo('${c.id}')">📄</button></div></div>`).join('');
 }
-
 function renderDashRegistros(){
-  const arr=arr2obj(registros).filter(r=>r.status!=='resolvido').slice(-4).reverse();
-  const wrap=el('dash-registros');
+  const arr=arr2obj(registros).filter(r=>r.status!=='resolvido').slice(-4).reverse();const wrap=el('dash-registros');
   if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">📝</span><p>Nenhum registro aberto.</p></div>';return;}
-  wrap.innerHTML=arr.map(r=>`<div class="row-item"><div class="avatar" style="background:${tipoStyle(r.tipo).bg};color:${tipoStyle(r.tipo).color}">${tipoStyle(r.tipo).emoji}</div><div class="row-meta"><div class="row-nome">${r.titulo}</div><div class="row-sub">${r.clienteNome||''} · ${r.data||''}</div></div><span class="badge ${statusBadge(r.status)}">${statusLabel(r.status)}</span></div>`).join('');
+  wrap.innerHTML=arr.map(r=>`<div class="row-item"><div class="avatar" style="background:${tipoStyle(r.tipo).bg};color:${tipoStyle(r.tipo).color}">${tipoStyle(r.tipo).emoji}</div><div class="row-meta"><div class="row-nome">${r.titulo}</div><div class="row-sub">${r.clienteNome||''}</div></div><span class="badge ${statusBadge(r.status)}">${statusLabel(r.status)}</span></div>`).join('');
 }
 
-// ─── CLIENTES ─────────────────────────────────────────────────────────────────
+// CLIENTES
 function renderListaClientes(){
   const q=(el('busca')?.value||'').toLowerCase();
   const arr=arr2obj(clientes).filter(c=>!q||c.razao.toLowerCase().includes(q)||(c.cnpj||'').includes(q));
   const wrap=el('lista-clientes-wrap');if(!wrap)return;
-  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">🔍</span><p>Nenhum cliente encontrado.</p></div>';return;}
-  wrap.innerHTML=arr.map(c=>`<div class="row-item"><div class="avatar">${initials(c.razao)}</div><div class="row-meta"><div class="row-nome">${c.razao}${c.fantasia?' <span style="color:var(--g400);font-size:11px">('+c.fantasia+')</span>':''}</div><div class="row-sub">${c.cnpj||'CNPJ não informado'} · ${c.regime||''} · ${c.setor||''}</div></div><div class="row-actions"><span class="badge ${(c.pendencias||0)>0?'badge-warn':'badge-ok'}">${(c.pendencias||0)>0?c.pendencias+' pend.':'Em dia'}</span><button class="btn btn-outline btn-sm" onclick="irParaInformativo('${c.id}')">📄 Informativo</button><button class="btn-icon" onclick="excluirCliente('${c.id}')">🗑</button></div></div>`).join('');
+  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">🔍</span><p>Nenhum cliente.</p></div>';return;}
+  wrap.innerHTML=arr.map(c=>`<div class="row-item"><div class="avatar">${initials(c.razao)}</div><div class="row-meta"><div class="row-nome">${c.razao}${c.fantasia?' <span style="color:var(--g400);font-size:11px">('+c.fantasia+')</span>':''}</div><div class="row-sub">${c.cnpj||'CNPJ não informado'} · ${c.regime||''} · ${c.setor||''}</div></div><div class="row-actions"><span class="badge ${(c.pendencias||0)>0?'badge-warn':'badge-ok'}">${(c.pendencias||0)>0?c.pendencias+' pend.':'Em dia'}</span><button class="btn btn-outline btn-sm" onclick="irParaInformativo('${c.id}')">📄</button><button class="btn-icon" onclick="excluirCliente('${c.id}')">🗑</button></div></div>`).join('');
 }
 function filtrarClientes(){renderListaClientes();}
-
 function salvarCliente(){
-  const razao=v('c-razao');if(!razao){toast('Razão social é obrigatória.','error');return;}
+  const razao=v('c-razao');if(!razao){toast('Razão social obrigatória.','error');return;}
   const id='c_'+Date.now();
   const c={razao,fantasia:v('c-fantasia'),cnpj:v('c-cnpj'),regime:el('c-regime').value,setor:el('c-setor').value,cnae:v('c-cnae'),resp:v('c-resp'),email:v('c-email'),func:parseInt(el('c-func').value)||0,prolabore:parseInt(el('c-prolabore').value)||0,obs:v('c-obs'),pendencias:0,cadastradoPor:currentUser,dataCad:new Date().toLocaleDateString('pt-BR')};
   showLoading('Salvando...');
   db.ref('clientes/'+id).set(c).then(()=>{hideLoading();toast('Cliente salvo!','success');limparFormCliente();}).catch(e=>{hideLoading();toast('Erro: '+e.message,'error');});
 }
 function limparFormCliente(){['c-razao','c-fantasia','c-cnpj','c-cnae','c-resp','c-email','c-obs'].forEach(id=>el(id).value='');['c-regime','c-setor'].forEach(id=>el(id).value='');['c-func','c-prolabore'].forEach(id=>el(id).value='');el('form-feedback').innerHTML='';}
-function excluirCliente(id){if(!confirm('Excluir este cliente?'))return;db.ref('clientes/'+id).remove().then(()=>toast('Cliente removido.','success')).catch(e=>toast('Erro: '+e.message,'error'));}
+function excluirCliente(id){if(!confirm('Excluir?'))return;db.ref('clientes/'+id).remove().then(()=>toast('Removido.','success')).catch(e=>toast('Erro: '+e.message,'error'));}
 
-// ─── INFORMATIVO ──────────────────────────────────────────────────────────────
+// INFORMATIVO — PENDÊNCIAS COM LINK
 function renderSelectClientes(){
   const sel=el('inf-cliente');if(!sel)return;
   const val=sel.value;
   sel.innerHTML='<option value="">Selecione...</option>'+arr2obj(clientes).map(c=>`<option value="${c.id}">${c.razao}</option>`).join('');
-  if(val)sel.value=val;
-  el('inf-mes').value=new Date().toISOString().slice(0,7);
+  if(val)sel.value=val;el('inf-mes').value=new Date().toISOString().slice(0,7);
 }
 function selecionarCliente(){
-  const id=el('inf-cliente').value;if(!id)return;
-  const c=clientes[id];if(!c)return;
+  const id=el('inf-cliente').value;if(!id)return;const c=clientes[id];if(!c)return;
   pendDocs=[];pendTribs=[];planoAcoes=[];
   el('inf-folha').value=(c.func>0||c.prolabore>0)?`Folha processada. ${c.func} CLT(s) + ${c.prolabore} pró-labore.`:'';
   el('inf-trib').value='';renderPendListas();
@@ -566,22 +603,42 @@ function selecionarCliente(){
 function addItem(tipo){
   const ids={doc:'pend-doc-input',trib:'pend-trib-input',plano:'plano-input'};
   const inp=el(ids[tipo]);const val=inp.value.trim();if(!val)return;
-  if(tipo==='doc')pendDocs.push({txt:val,ok:false});
-  if(tipo==='trib')pendTribs.push({txt:val,ok:false});
-  if(tipo==='plano')planoAcoes.push({txt:val,ok:false});
+  if(tipo==='doc')pendDocs.push({txt:val,ok:false,link:'',linkNome:''});
+  if(tipo==='trib')pendTribs.push({txt:val,ok:false,link:'',linkNome:''});
+  if(tipo==='plano')planoAcoes.push({txt:val,ok:false,link:'',linkNome:''});
   inp.value='';renderPendListas();
 }
 function renderPendListas(){
-  const r=(arr,elId,tipo)=>{const e=el(elId);if(!e)return;e.innerHTML=arr.length?arr.map((p,i)=>`<div class="pend-item"><input type="checkbox" ${p.ok?'checked':''} onchange="toggleItem('${tipo}',${i})"><label class="${p.ok?'done':''}">${p.txt}</label><button class="pend-remove" onclick="removeItem('${tipo}',${i})">✕</button></div>`).join(''):'<div style="font-size:12px;color:var(--g400);padding:4px 0">Nenhum item.</div>';};
+  const r=(arr,elId,tipo)=>{
+    const e=el(elId);if(!e)return;
+    e.innerHTML=arr.length?arr.map((p,i)=>`
+      <div class="pend-item">
+        <input type="checkbox" ${p.ok?'checked':''} onchange="toggleItem('${tipo}',${i})">
+        <div class="pend-item-body">
+          <div class="pend-item-txt ${p.ok?'done':''}">${p.txt}</div>
+          ${p.link?`<div class="pend-item-link">📎 <a href="${p.link}" target="_blank">${p.linkNome||'Ver arquivo no Drive'}</a> <button onclick="removerLink('${tipo}',${i})" style="background:none;border:none;cursor:pointer;color:var(--g400);font-size:12px">✕</button></div>`:`<span class="pend-add-link" onclick="abrirModalLink('${tipo}',${i})">📎 Adicionar link do Drive</span>`}
+        </div>
+        <button class="pend-remove" onclick="removeItem('${tipo}',${i})">✕</button>
+      </div>`).join(''):'<div style="font-size:12px;color:var(--g400);padding:4px 0">Nenhum item.</div>';
+  };
   r(pendDocs,'pend-docs-lista','doc');r(pendTribs,'pend-trib-lista','trib');r(planoAcoes,'plano-lista','plano');
 }
-function toggleItem(tipo,i){if(tipo==='doc')pendDocs[i].ok=!pendDocs[i].ok;if(tipo==='trib')pendTribs[i].ok=!pendTribs[i].ok;if(tipo==='plano')planoAcoes[i].ok=!planoAcoes[i].ok;renderPendListas();}
+function toggleItem(tipo,i){const arr=tipo==='doc'?pendDocs:tipo==='trib'?pendTribs:planoAcoes;arr[i].ok=!arr[i].ok;renderPendListas();}
 function removeItem(tipo,i){if(tipo==='doc')pendDocs.splice(i,1);if(tipo==='trib')pendTribs.splice(i,1);if(tipo==='plano')planoAcoes.splice(i,1);renderPendListas();}
+function abrirModalLink(tipo,i){linkPendTipo=tipo;linkPendIdx=i;el('link-url').value='';el('link-nome').value='';el('modal-link').classList.add('open');}
+function confirmarLink(){
+  const url=v('link-url'),nome=v('link-nome');
+  if(!url){toast('Cole o link do Drive.','error');return;}
+  const arr=linkPendTipo==='doc'?pendDocs:linkPendTipo==='trib'?pendTribs:planoAcoes;
+  arr[linkPendIdx].link=url;arr[linkPendIdx].linkNome=nome;
+  fecharModal('modal-link');renderPendListas();toast('Link adicionado!','success');
+}
+function removerLink(tipo,i){const arr=tipo==='doc'?pendDocs:tipo==='trib'?pendTribs:planoAcoes;arr[i].link='';arr[i].linkNome='';renderPendListas();}
 function irParaInformativo(id){goTo('informativo');setTimeout(()=>{el('inf-cliente').value=id;selecionarCliente();},50);}
 
 async function gerarInformativo(){
   const id=el('inf-cliente').value;if(!id){toast('Selecione um cliente.','error');return;}
-  const akey=lg('mb_akey');if(!akey){toast('Chave Anthropic não encontrada. Faça logout e reconfigure.','error');return;}
+  const akey=lg('mb_akey');if(!akey){toast('Chave Anthropic não encontrada.','error');return;}
   const c=clientes[id];
   const mes=el('inf-mes').value;
   const mesFmt=mes?new Date(mes+'-02').toLocaleDateString('pt-BR',{month:'long',year:'numeric'}):'';
@@ -591,9 +648,9 @@ async function gerarInformativo(){
   const plano=planoAcoes.map((p,i)=>(i+1)+'. '+p.txt);
   const wrap=el('preview-wrap');
   wrap.innerHTML='<div class="preview-placeholder"><span class="ph-icon">⏳</span><p>Gerando com IA...</p></div>';
-  el('preview-actions').style.display='none';
+  el('export-bar').style.display='none';el('gamma-result').style.display='none';
 
-  const prompt=`Você é assistente sênior da MB Contabilidade Estratégica, escritório contábil estratégico em Campo Grande-MS, fundado por Marijane, posicionado como parceiro estratégico dos clientes do CPF ao CNPJ.
+  const prompt=`Você é assistente sênior da MB Contabilidade Estratégica, escritório contábil estratégico em Campo Grande-MS, fundado por Marijane, parceiro estratégico dos clientes do CPF ao CNPJ.
 
 Crie um informativo mensal profissional e consultivo. Linguagem clara para empresários, tom de parceiro estratégico.
 
@@ -602,7 +659,7 @@ CNPJ: ${c.cnpj||'não informado'} | REGIME: ${c.regime||'não informado'} | SETO
 RESPONSÁVEL: ${c.resp||'não informado'} | CLT: ${c.func||0} | PRÓ-LABORE: ${c.prolabore||0}
 MÊS: ${mesFmt}${c.obs?'\nOBS: '+c.obs:''}
 
-ORIENTAÇÕES TRIBUTÁRIAS: ${trib||'nenhuma informação específica'}
+ORIENTAÇÕES TRIBUTÁRIAS: ${trib||'nenhuma específica'}
 FOLHA DE PAGAMENTO: ${folha||'não aplicável'}
 PENDÊNCIAS DOCUMENTOS: ${pd.length?pd.join('; '):'NENHUMA'}
 PENDÊNCIAS TRIBUTÁRIAS: ${pt.length?pt.join('; '):'NENHUMA'}
@@ -612,24 +669,47 @@ Escreva com estas seções em texto corrido sem markdown:
 SAUDAÇÃO | ORIENTAÇÕES TRIBUTÁRIAS DO MÊS | FOLHA DE PAGAMENTO | PENDÊNCIAS — DOCUMENTOS | PENDÊNCIAS TRIBUTÁRIAS | PLANO DE AÇÃO | ENCERRAMENTO`;
 
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':akey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,messages:[{role:'user',content:prompt}]})
-    });
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':akey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
     if(!r.ok){const err=await r.json();throw new Error(err.error?.message||'Erro na API');}
     const data=await r.json();
     informativoTexto=(data.content||[]).map(b=>b.text||'').join('');
     wrap.innerHTML=`<div class="preview-header-block"><div><div class="preview-nome">${c.razao}</div><div class="preview-mes">Informativo de ${mesFmt}</div></div><div class="preview-logo-text">MB Contabilidade<br>Estratégica</div></div><div class="preview-body"><pre>${informativoTexto}</pre></div>`;
-    el('preview-actions').style.display='flex';
+    el('export-bar').style.display='flex';
     db.ref('clientes/'+id+'/pendencias').set(pd.length+pt.length);
-  }catch(e){
-    wrap.innerHTML='<div class="preview-placeholder"><span class="ph-icon">❌</span><p>Erro: '+e.message+'</p></div>';
-    toast('Erro ao gerar: '+e.message,'error');
-  }
+  }catch(e){wrap.innerHTML='<div class="preview-placeholder"><span class="ph-icon">❌</span><p>Erro: '+e.message+'</p></div>';toast('Erro: '+e.message,'error');}
 }
 
-function copiarTexto(){if(!informativoTexto)return;navigator.clipboard.writeText(informativoTexto).then(()=>toast('Texto copiado!','success')).catch(()=>toast('Não foi possível copiar.','error'));}
+function copiarTexto(){if(!informativoTexto)return;navigator.clipboard.writeText(informativoTexto).then(()=>toast('Copiado!','success'));}
+function baixarTxt(){
+  if(!informativoTexto)return;
+  const c=clientes[el('inf-cliente').value];
+  const nome=(c?.razao||'informativo').replace(/\s+/g,'_');
+  const mes=el('inf-mes').value||'';
+  const blob=new Blob([informativoTexto],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`MB_Informativo_${nome}_${mes}.txt`;a.click();
+  toast('Download iniciado!','success');
+}
+async function exportarGamma(){
+  if(!informativoTexto){toast('Gere o informativo primeiro.','error');return;}
+  const akey=lg('mb_akey');
+  const c=clientes[el('inf-cliente').value];
+  const mes=el('inf-mes').value;
+  const mesFmt=mes?new Date(mes+'-02').toLocaleDateString('pt-BR',{month:'long',year:'numeric'}):'';
+  toast('Exportando para Gamma...','');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':akey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:500,messages:[{role:'user',content:`Converta este informativo contábil em um outline para apresentação no Gamma App com 6 slides. Retorne APENAS um array JSON com objetos {title, description}. Sem markdown, sem explicação.\n\n${informativoTexto}`}]})});
+    const data=await r.json();
+    const texto=(data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const slides=JSON.parse(texto);
+    const outline=slides.map(s=>`${s.title}\n${s.description}`).join('\n\n');
+    const gammaUrl=`https://gamma.app/create?text=${encodeURIComponent(outline)}&title=${encodeURIComponent('Informativo '+mesFmt+' — '+(c?.razao||''))}`;
+    el('gamma-link').href=gammaUrl;el('gamma-link').textContent='Clique aqui para abrir no Gamma →';
+    el('gamma-result').style.display='flex';
+    window.open(gammaUrl,'_blank');
+    toast('Gamma aberto!','success');
+  }catch(e){toast('Erro ao exportar: '+e.message,'error');}
+}
 function registrarEnvio(){
   const id=el('inf-cliente').value;const c=clientes[id];
   if(!c||!informativoTexto){toast('Gere o informativo primeiro.','error');return;}
@@ -637,40 +717,98 @@ function registrarEnvio(){
   db.ref('historico/'+hid).set({clienteId:id,clienteNome:c.razao,mes:el('inf-mes').value,enviadoPor:currentUser,data:new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}).then(()=>toast('Envio registrado!','success')).catch(e=>toast('Erro: '+e.message,'error'));
 }
 
-// ─── REGISTROS ────────────────────────────────────────────────────────────────
+// RELATÓRIOS
+function renderSelectRelat(){
+  ['rel-cliente','arq-cliente'].forEach(id=>{
+    const sel=el(id);if(!sel)return;
+    sel.innerHTML='<option value="">Selecione...</option>'+arr2obj(clientes).map(c=>`<option value="${c.id}">${c.razao}</option>`).join('');
+  });
+}
+async function gerarRelatorio(){
+  const id=el('rel-cliente').value,tipo=el('rel-tipo').value,info=el('rel-info').value;
+  if(!id||!tipo){toast('Selecione cliente e tipo.','error');return;}
+  const akey=lg('mb_akey');const c=clientes[id];
+  const tiposLabel={tributario:'Análise tributária completa',fator_r:'Simulação Fator R — Simples Nacional',folha:'Análise de folha de pagamento',dre:'DRE simplificado',planejamento:'Planejamento tributário anual',personalizado:'Relatório personalizado'};
+  const wrap=el('rel-preview');
+  wrap.innerHTML='<div class="preview-placeholder"><span class="ph-icon">⏳</span><p>Gerando relatório...</p></div>';
+  el('rel-export-bar').style.display='none';
+
+  const prompt=`Você é consultor contábil sênior da MB Contabilidade Estratégica, Campo Grande-MS.
+
+Gere um ${tiposLabel[tipo]||'relatório'} completo e consultivo para o cliente abaixo.
+Tom profissional, linguagem clara para empresários.
+
+CLIENTE: ${c.razao} | CNPJ: ${c.cnpj||'—'} | REGIME: ${c.regime||'—'} | SETOR: ${c.setor||'—'}
+CLT: ${c.func||0} | PRÓ-LABORE: ${c.prolabore||0}${c.obs?'\nOBS: '+c.obs:''}
+
+INFORMAÇÕES ADICIONAIS: ${info||'nenhuma'}
+
+Estruture o relatório com seções claras, análise objetiva e recomendações práticas.
+Ao final inclua uma seção "PRÓXIMOS PASSOS" com ações recomendadas.`;
+
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':akey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,messages:[{role:'user',content:prompt}]})});
+    if(!r.ok){const err=await r.json();throw new Error(err.error?.message||'Erro na API');}
+    const data=await r.json();
+    relatorioTexto=(data.content||[]).map(b=>b.text||'').join('');
+    wrap.innerHTML=`<div class="preview-header-block"><div><div class="preview-nome">${c.razao}</div><div class="preview-mes">${tiposLabel[tipo]||''}</div></div><div class="preview-logo-text">MB Contabilidade<br>Estratégica</div></div><div class="preview-body"><pre>${relatorioTexto}</pre></div>`;
+    el('rel-export-bar').style.display='flex';
+  }catch(e){wrap.innerHTML='<div class="preview-placeholder"><span class="ph-icon">❌</span><p>Erro: '+e.message+'</p></div>';toast('Erro: '+e.message,'error');}
+}
+function copiarRelatorio(){navigator.clipboard.writeText(relatorioTexto).then(()=>toast('Copiado!','success'));}
+function baixarRelatorio(){
+  if(!relatorioTexto)return;
+  const blob=new Blob([relatorioTexto],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='MB_Relatorio.txt';a.click();
+  toast('Download iniciado!','success');
+}
+function salvarArquivo(){
+  const clienteId=el('arq-cliente').value,nome=v('arq-nome'),link=v('arq-link'),tipo=el('arq-tipo').value;
+  if(!clienteId||!nome||!link){toast('Cliente, nome e link são obrigatórios.','error');return;}
+  const c=clientes[clienteId];
+  const id='a_'+Date.now();
+  db.ref('arquivos/'+id).set({clienteId,clienteNome:c?.razao||'',nome,link,tipo,adicionadoPor:currentUser,data:new Date().toLocaleDateString('pt-BR')})
+    .then(()=>{toast('Arquivo salvo!','success');el('arq-nome').value='';el('arq-link').value='';el('arq-tipo').value='';})
+    .catch(e=>toast('Erro: '+e.message,'error'));
+}
+function renderArquivos(){
+  const arr=arr2obj(arquivos).sort((a,b)=>b.id.localeCompare(a.id));
+  const wrap=el('lista-arquivos');if(!wrap)return;
+  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">📂</span><p>Nenhum arquivo salvo ainda.</p></div>';return;}
+  const emojiTipo={Balancete:'📊',DRE:'📈','Folha de pagamento':'👥',Declaração:'📋',Contrato:'📄',Relatório:'📑',Outro:'📁'};
+  wrap.innerHTML=arr.map(a=>`<div class="relat-arquivo-card"><div class="relat-arquivo-icon">${emojiTipo[a.tipo]||'📁'}</div><div class="relat-arquivo-meta"><div class="relat-arquivo-nome">${a.nome}</div><div class="relat-arquivo-sub">${a.clienteNome} · ${a.tipo||''} · ${a.data||''}</div></div><div style="display:flex;gap:6px"><a href="${a.link}" target="_blank" class="btn btn-outline btn-sm">🔗 Abrir</a><button class="btn-icon" onclick="excluirArquivo('${a.id}')">🗑</button></div></div>`).join('');
+}
+function excluirArquivo(id){if(!confirm('Excluir referência?'))return;db.ref('arquivos/'+id).remove().then(()=>toast('Removido.','success')).catch(e=>toast('Erro: '+e.message,'error'));}
+
+// REGISTROS
 function tipoStyle(tipo){if(tipo==='historico')return{bg:'var(--info-bg)',color:'var(--info)',emoji:'📘'};if(tipo==='solicitacao')return{bg:'var(--warn-bg)',color:'var(--warn)',emoji:'📋'};if(tipo==='ocorrencia')return{bg:'var(--danger-bg)',color:'var(--danger)',emoji:'🚨'};return{bg:'var(--g100)',color:'var(--g600)',emoji:'📝'};}
 function tipoLabel(tipo){return{historico:'Histórico',solicitacao:'Solicitação',ocorrencia:'Ocorrência'}[tipo]||tipo;}
 function tipoBadge(tipo){return{historico:'badge-info',solicitacao:'badge-warn',ocorrencia:'badge-danger'}[tipo]||'badge-gray';}
 function statusLabel(s){return{aberto:'Aberto',em_andamento:'Em andamento',resolvido:'Resolvido'}[s]||s;}
 function statusBadge(s){return{aberto:'badge-warn',em_andamento:'badge-info',resolvido:'badge-ok'}[s]||'badge-gray';}
-
-function renderSelectRegistro(){const sel=el('reg-cliente');if(!sel)return;const val=sel.value;sel.innerHTML='<option value="">Selecione...</option>'+arr2obj(clientes).map(c=>`<option value="${c.id}">${c.razao}</option>`).join('');if(val)sel.value=val;}
-
+function renderSelectRegistro(){const sel=el('reg-cliente');if(!sel)return;sel.innerHTML='<option value="">Selecione...</option>'+arr2obj(clientes).map(c=>`<option value="${c.id}">${c.razao}</option>`).join('');}
 function renderRegistros(){
   let arr=arr2obj(registros).sort((a,b)=>b.id.localeCompare(a.id));
   if(filtroReg!=='todos')arr=arr.filter(r=>r.tipo===filtroReg);
-  ['todos','historico','solicitacao','ocorrencia'].forEach(f=>{const btn=el('rfbtn-'+f);if(btn){btn.className='btn btn-sm '+(filtroReg===f?'btn-primary':'btn-outline');}});
+  ['todos','historico','solicitacao','ocorrencia'].forEach(f=>{const btn=el('rfbtn-'+f);if(btn)btn.className='btn btn-sm '+(filtroReg===f?'btn-primary':'btn-outline');});
   const wrap=el('lista-registros');if(!wrap)return;
-  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">📝</span><p>Nenhum registro encontrado.</p></div>';return;}
-  wrap.innerHTML=arr.map(r=>{const ts=tipoStyle(r.tipo);return`<div class="reg-card"><div class="reg-header"><div class="reg-icon" style="background:${ts.bg}">${ts.emoji}</div><div class="reg-meta"><div class="reg-cliente">${r.titulo}</div><div class="reg-info">${r.clienteNome||'—'} · <span class="badge ${tipoBadge(r.tipo)}">${tipoLabel(r.tipo)}</span> · ${r.data||''} · ${r.registradoPor||''}</div></div></div>${r.descricao?`<div class="reg-texto">${r.descricao}</div>`:''}<div class="reg-footer"><span class="badge ${statusBadge(r.status)}">${statusLabel(r.status)}</span><div style="display:flex;gap:6px"><button class="btn btn-outline btn-sm" onclick="editarRegistro('${r.id}')">✏️ Editar</button>${r.status!=='resolvido'?`<button class="btn btn-outline btn-sm" onclick="resolverRegistro('${r.id}')">✓ Resolver</button>`:''}<button class="btn-icon" onclick="excluirRegistro('${r.id}')">🗑</button></div></div></div>`;}).join('');
+  if(!arr.length){wrap.innerHTML='<div class="empty"><span class="e-icon">📝</span><p>Nenhum registro.</p></div>';return;}
+  wrap.innerHTML=arr.map(r=>{const ts=tipoStyle(r.tipo);return`<div class="reg-card"><div class="reg-header"><div class="reg-icon" style="background:${ts.bg}">${ts.emoji}</div><div class="reg-meta"><div class="reg-cliente">${r.titulo}</div><div class="reg-info">${r.clienteNome||'—'} · <span class="badge ${tipoBadge(r.tipo)}">${tipoLabel(r.tipo)}</span> · ${r.data||''} · ${r.registradoPor||''}</div></div></div>${r.descricao?`<div class="reg-texto">${r.descricao}</div>`:''}<div class="reg-footer"><span class="badge ${statusBadge(r.status)}">${statusLabel(r.status)}</span><div style="display:flex;gap:6px"><button class="btn btn-outline btn-sm" onclick="editarRegistro('${r.id}')">✏️</button>${r.status!=='resolvido'?`<button class="btn btn-outline btn-sm" onclick="resolverRegistro('${r.id}')">✓ Resolver</button>`:''}<button class="btn-icon" onclick="excluirRegistro('${r.id}')">🗑</button></div></div></div>`;}).join('');
 }
-
-function abrirModalRegistro(){editandoRegId=null;el('modal-reg-titulo').textContent='Novo registro';el('reg-cliente').value='';el('reg-tipo').value='';el('reg-titulo').value='';el('reg-descricao').value='';el('reg-status').value='aberto';renderSelectRegistro();el('modal-registro').classList.add('open');}
+function abrirModalRegistro(){editandoRegId=null;el('modal-reg-titulo').textContent='Novo registro';['reg-titulo','reg-descricao'].forEach(id=>el(id).value='');el('reg-tipo').value='';el('reg-status').value='aberto';renderSelectRegistro();el('modal-registro').classList.add('open');}
 function editarRegistro(id){editandoRegId=id;const r=registros[id];if(!r)return;el('modal-reg-titulo').textContent='Editar registro';renderSelectRegistro();setTimeout(()=>{el('reg-cliente').value=r.clienteId||'';el('reg-tipo').value=r.tipo||'';el('reg-titulo').value=r.titulo||'';el('reg-descricao').value=r.descricao||'';el('reg-status').value=r.status||'aberto';},50);el('modal-registro').classList.add('open');}
-function fecharModal(){el('modal-registro').classList.remove('open');}
 function salvarRegistro(){
   const clienteId=el('reg-cliente').value,tipo=el('reg-tipo').value,titulo=el('reg-titulo').value.trim();
-  if(!clienteId||!tipo||!titulo){toast('Cliente, tipo e título são obrigatórios.','error');return;}
-  const c=clientes[clienteId];
-  const id=editandoRegId||('r_'+Date.now());
+  if(!clienteId||!tipo||!titulo){toast('Cliente, tipo e título obrigatórios.','error');return;}
+  const c=clientes[clienteId];const id=editandoRegId||('r_'+Date.now());
   const reg={clienteId,clienteNome:c?.razao||'',tipo,titulo,descricao:el('reg-descricao').value.trim(),status:el('reg-status').value,registradoPor:currentUser,data:editandoRegId?(registros[editandoRegId]?.data||new Date().toLocaleDateString('pt-BR')):new Date().toLocaleDateString('pt-BR'),hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})};
   showLoading('Salvando...');
-  db.ref('registros/'+id).set(reg).then(()=>{hideLoading();toast('Registro salvo!','success');fecharModal();}).catch(e=>{hideLoading();toast('Erro: '+e.message,'error');});
+  db.ref('registros/'+id).set(reg).then(()=>{hideLoading();toast('Registro salvo!','success');fecharModal('modal-registro');}).catch(e=>{hideLoading();toast('Erro: '+e.message,'error');});
 }
-function resolverRegistro(id){db.ref('registros/'+id+'/status').set('resolvido').then(()=>toast('Marcado como resolvido!','success')).catch(e=>toast('Erro: '+e.message,'error'));}
+function resolverRegistro(id){db.ref('registros/'+id+'/status').set('resolvido').then(()=>toast('Resolvido!','success')).catch(e=>toast('Erro: '+e.message,'error'));}
 function excluirRegistro(id){if(!confirm('Excluir?'))return;db.ref('registros/'+id).remove().then(()=>toast('Removido.','success')).catch(e=>toast('Erro: '+e.message,'error'));}
 
-// ─── HISTÓRICO ────────────────────────────────────────────────────────────────
+// HISTÓRICO
 function renderHistorico(){
   const arr=arr2obj(historico).sort((a,b)=>b.id.localeCompare(a.id));
   const wrap=el('historico-lista');if(!wrap)return;
